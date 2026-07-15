@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
   description: "شركة ليبية في زليتن لصناعة أكياس الأعلاف والأرز والفحم والخضروات والأسمدة.",
   alternates: { canonical: "https://alaska.ly/" },
-  icons: { icon: "/alaska-logo.webp", shortcut: "/alaska-logo.webp" },
+  icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
   openGraph: {
     title: "شركة الاسكا لصناعة أكياس الأعلاف",
     description: "حلول الأكياس المنسوجة من زليتن، ليبيا.",
