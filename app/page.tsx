@@ -15,7 +15,7 @@ type EmailDraft = {
 const copy = {
   ar: {
     nav: [
-      ["عن ألاسكا", "#about"],
+      ["عن الاسكا", "#about"],
       ["منتجاتنا", "#products"],
       ["التصنيع", "#process"],
       ["الجودة", "#quality"],
@@ -27,7 +27,7 @@ const copy = {
     heroTitleA: "ننسج القوة.",
     heroTitleB: "نحمي منتجك.",
     heroText:
-      "شركة ألاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة، نقدم حلول تعبئة عملية للأرز والأعلاف والفحم والخضروات والأسمدة.",
+      "شركة الاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة، نقدم حلول تعبئة عملية للأرز والأعلاف والفحم والخضروات والأسمدة.",
     productsCta: "اكتشف المنتجات",
     contactCta: "تواصل معنا",
     statProducts: "فئات منتجات",
@@ -36,7 +36,7 @@ const copy = {
     aboutLabel: "من نحن",
     aboutTitle: "صناعة محلية برؤية عملية",
     aboutText:
-      "من مدينة زليتن، تعمل ألاسكا على تصنيع الأكياس المنسوجة لتلبية احتياجات التعبئة في قطاعات الزراعة والغذاء والتجارة. نركز على المنتج المناسب، التنفيذ الواضح، والمتابعة في كل مرحلة.",
+      "من مدينة زليتن، تعمل الاسكا على تصنيع الأكياس المنسوجة لتلبية احتياجات التعبئة في قطاعات الزراعة والغذاء والتجارة. نركز على المنتج المناسب، التنفيذ الواضح، والمتابعة في كل مرحلة.",
     aboutPill1: "خامة PP",
     aboutPill2: "حلول متعددة",
     aboutPill3: "متابعة الجودة",
@@ -73,11 +73,11 @@ const copy = {
     mapCta: "افتح الموقع على الخريطة",
     contactLabel: "لنتحدث",
     contactTitle: "تبحث عن حل تعبئة مناسب؟",
-    contactText: "تواصل مع ألاسكا للاستفسار عن فئات الأكياس المتاحة.",
+    contactText: "تواصل مع الاسكا للاستفسار عن فئات الأكياس المتاحة.",
     call: "اتصل الآن",
     whatsapp: "واتساب",
     email: "البريد الإلكتروني",
-    footerText: "شركة ألاسكا لصناعة أكياس الأعلاف",
+    footerText: "شركة الاسكا لصناعة أكياس الأعلاف",
     rights: "جميع الحقوق محفوظة",
   },
   en: {
@@ -206,7 +206,7 @@ export default function Home() {
       <header className="header">
         <div className="container nav-wrap">
           <a className="brand" href="#top" aria-label="Alaska home">
-            <img src="/alaska-logo.webp" alt={isAr ? "شعار شركة ألاسكا" : "Alaska Company logo"} />
+            <img src="/alaska-logo.webp" alt={isAr ? "شعار شركة الاسكا" : "Alaska Company logo"} />
             <span>
               <strong>ALASKA</strong>
               <small>{isAr ? "صناعة أكياس الأعلاف" : "Woven bag manufacturing"}</small>
@@ -215,7 +215,7 @@ export default function Home() {
 
           <nav className={`nav-links ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
             {t.nav.map(([label, href]) => (
-              <a key={href} href={href} onClick={closeMenu}>{label}</a>
+              <a key={href} href={href} onClick={closeMenu} className={isAr && label.includes("الاسكا") ? "alaska-ar" : undefined}>{label}</a>
             ))}
           </nav>
 
@@ -240,7 +240,7 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow light"><span />{t.eyebrow}</p>
             <h1><span>{t.heroTitleA}</span><em>{t.heroTitleB}</em></h1>
-            <p className="hero-text">{t.heroText}</p>
+            <p className={`hero-text ${isAr ? "alaska-ar" : ""}`}>{t.heroText}</p>
             <div className="hero-actions">
               <a className="btn btn-primary" href="#products">{t.productsCta}<span aria-hidden="true">↗</span></a>
               <a className="btn btn-ghost" href="#contact">{t.contactCta}</a>
@@ -272,7 +272,7 @@ export default function Home() {
           <div className="section-copy">
             <p className="eyebrow"><span />{t.aboutLabel}</p>
             <h2>{t.aboutTitle}</h2>
-            <p className="lead">{t.aboutText}</p>
+            <p className={`lead ${isAr ? "alaska-ar" : ""}`}>{t.aboutText}</p>
             <div className="pill-row">
               <span>{t.aboutPill1}</span><span>{t.aboutPill2}</span><span>{t.aboutPill3}</span>
             </div>
@@ -353,7 +353,7 @@ export default function Home() {
           <div className="map-frame">
             <iframe
               src="https://www.google.com/maps?q=32.4037500,14.5859167&z=15&output=embed"
-              title={isAr ? "موقع مصنع ألاسكا على الخريطة" : "Alaska factory location on the map"}
+              title={isAr ? "موقع مصنع الاسكا على الخريطة" : "Alaska factory location on the map"}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
@@ -414,7 +414,7 @@ export default function Home() {
           <div className="contact-title">
             <p className="eyebrow"><span />{t.contactLabel}</p>
             <h2>{t.contactTitle}</h2>
-            <p>{t.contactText}</p>
+            <p className={isAr ? "alaska-ar" : undefined}>{t.contactText}</p>
           </div>
           <div className="contact-links">
             <a href="tel:+218912182998"><span>{t.call}</span><strong dir="ltr">091 218 2998</strong><i>↗</i></a>
@@ -431,7 +431,7 @@ export default function Home() {
 
       <footer className="footer">
         <div className="container footer-main">
-          <div className="footer-brand"><img src="/alaska-logo.webp" alt="" /><div><strong>ALASKA</strong><span>{t.footerText}</span></div></div>
+          <div className="footer-brand"><img src="/alaska-logo.webp" alt="" /><div><strong>ALASKA</strong><span className={isAr ? "alaska-ar" : undefined}>{t.footerText}</span></div></div>
           <a href="#top" className="back-top" aria-label="Back to top">↑</a>
         </div>
         <div className="container footer-bottom"><span>© {new Date().getFullYear()} ALASKA. {t.rights}</span><span>alaska.ly</span></div>
