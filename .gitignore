@@ -46,3 +46,7 @@ next-env.d.ts
 ChatGPT Image*.png
 *_removalai_preview.png
 
+# pnpm store
+.pnpm-store/
+
+
