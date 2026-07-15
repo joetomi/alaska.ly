@@ -232,7 +232,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-media" aria-hidden="true">
-          <img src="/hero-factory.webp" alt="" />
+          <img src="/hero-factory-v2.png" alt="" />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="hero-pattern" aria-hidden="true" />
