@@ -1,11 +1,23 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
-import hostingConfig from "./.openai/hosting.json";
 import { sites } from "./build/sites-vite-plugin.ts";
+import fs from "node:fs";
+import path from "node:path";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
+
+// Load hosting config gracefully if it exists
+let hostingConfig = { d1: null, r2: null };
+const hostingPath = path.resolve(process.cwd(), ".openai/hosting.json");
+if (fs.existsSync(hostingPath)) {
+  try {
+    hostingConfig = JSON.parse(fs.readFileSync(hostingPath, "utf-8"));
+  } catch (error) {
+    console.warn("Failed to parse hosting.json:", error);
+  }
+}
 
 const { d1, r2 } = hostingConfig;
 
