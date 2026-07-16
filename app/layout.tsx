@@ -4,12 +4,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://alaska.ly"),
   title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
-  description: "الموقع الرسمي لشركة الاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة في زليتن، ليبيا.",
+  description:
+    "الموقع الرسمي لشركة الاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة في زليتن، ليبيا.",
   alternates: { canonical: "https://alaska.ly/" },
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
   openGraph: {
     title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
-    description: "شركة ليبية متخصصة في صناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة.",
+    description:
+      "شركة ليبية متخصصة في صناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة.",
     url: "https://alaska.ly/",
     siteName: "ALASKA",
     locale: "ar_LY",
@@ -34,6 +36,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/JumanArabic-Normal.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link rel="preload" href="/alaska-logo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/hero-factory-v2.png" as="image" type="image/png" />
+      </head>
       <body>{children}</body>
     </html>
   );
