@@ -8,9 +8,13 @@
   "scripts": {
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "build": "node build.js",
-    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start"
+    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
+    "typecheck": "tsc -p tsconfig.site.json --noEmit",
+    "test": "node --test tests/rendered-html.test.mjs"
   },
   "dependencies": {
+    "framer-motion": "12.42.2",
+    "lenis": "1.3.25",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
