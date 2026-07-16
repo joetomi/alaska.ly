@@ -232,8 +232,38 @@ button { color: inherit; }
 .footer-brand div { display: grid; }
 .footer-brand strong { font-size: 25px; letter-spacing: .18em; }
 .footer-brand span { color: rgba(255,255,255,.5); font-size: 11px; margin-top: 6px; }
-.back-top { width: 52px; height: 52px; display: grid; place-content: center; border: 1px solid rgba(255,255,255,.23); border-radius: 50%; color: var(--green); font-size: 22px; transition: .2s ease; }
-.back-top:hover { background: var(--green); color: var(--deep); border-color: var(--green); }
+.back-top {
+  position: fixed;
+  bottom: 30px;
+  inset-inline-end: 30px;
+  z-index: 999;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-content: center;
+  border: 1px solid rgba(49, 197, 107, 0.3);
+  border-radius: 50%;
+  color: var(--green);
+  font-size: 22px;
+  background: rgba(8, 44, 38, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s ease, background .2s ease, border-color .2s ease, color .2s ease;
+}
+.back-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.back-top:hover {
+  background: var(--green);
+  color: var(--deep);
+  border-color: var(--green);
+  transform: translateY(-3px);
+}
 .footer-bottom { display: flex; justify-content: space-between; padding-top: 24px; color: rgba(255,255,255,.4); font-size: 11px; }
 
 @media (max-width: 980px) {

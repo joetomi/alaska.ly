@@ -252,6 +252,18 @@
       window.open(links[button.dataset.platform], "_blank", "noopener,noreferrer");
       modal.hidden = true;
     }));
+
+    // Floating Back to Top button scroll handler
+    const backTopBtn = document.querySelector(".back-top");
+    if (backTopBtn) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > window.innerHeight - 100) {
+          backTopBtn.classList.add("is-visible");
+        } else {
+          backTopBtn.classList.remove("is-visible");
+        }
+      });
+    }
   })();
 </script>
 </body>

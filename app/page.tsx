@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 
 type Lang = "ar" | "en";
@@ -161,6 +161,19 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("ar");
   const [menuOpen, setMenuOpen] = useState(false);
   const [emailDraft, setEmailDraft] = useState<EmailDraft | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > window.innerHeight - 100) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const t = copy[lang];
   const isAr = lang === "ar";
 
@@ -432,7 +445,7 @@ export default function Home() {
       <footer className="footer">
         <div className="container footer-main">
           <div className="footer-brand"><img src="/alaska-logo.webp" alt="" /><div><strong>ALASKA</strong><span className={isAr ? "alaska-ar" : undefined}>{t.footerText}</span></div></div>
-          <a href="#top" className="back-top" aria-label="Back to top">↑</a>
+          <a href="#top" className={`back-top ${showScrollTop ? "is-visible" : ""}`} aria-label="Back to top">↑</a>
         </div>
         <div className="container footer-bottom"><span>© {new Date().getFullYear()} ALASKA. {t.rights}</span><span>alaska.ly</span></div>
       </footer>
