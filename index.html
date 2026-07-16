@@ -211,6 +211,7 @@
       if (translations[key]) textNodes.push({ node, ar: node.nodeValue, en: translations[key] });
     }
     let currentLang = "ar";
+    const heroImg = document.querySelector(".hero-media img");
     langToggle.addEventListener("click", () => {
       currentLang = currentLang === "ar" ? "en" : "ar";
       const english = currentLang === "en";
@@ -221,6 +222,9 @@
       langToggle.querySelector("span").textContent = english ? "العربية" : "English";
       langToggle.setAttribute("aria-label", english ? "التبديل إلى العربية" : "Switch to English");
       document.title = english ? "Alaska Company — Woven Bag Manufacturing" : "شركة الاسكا لصناعة أكياس الأعلاف";
+      if (heroImg) {
+        heroImg.src = english ? "public/hero-factory-en.jpg" : "public/hero-factory-v2.png";
+      }
     });
 
     const form = document.getElementById("email-form");
