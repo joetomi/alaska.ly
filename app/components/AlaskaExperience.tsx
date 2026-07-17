@@ -600,6 +600,18 @@ type NavbarProps = {
   onLanguageChange: () => void;
 };
 
+function ContactChannelIcon({ href }: { href: string }) {
+  if (href.startsWith("tel:")) {
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.36 1.94.69 2.86a2 2 0 0 1-.45 2.11L8.08 9.96a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.92.33 1.88.56 2.86.69A2 2 0 0 1 22 16.92Z" /></svg>;
+  }
+
+  if (href.includes("wa.me")) {
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M20.4 11.5a8.4 8.4 0 0 1-12.28 7.46L4 20l1.04-3.79A8.4 8.4 0 1 1 20.4 11.5Z" /><path d="M8.85 7.78c.2-.47.4-.48.65-.49h.55c.18 0 .38.07.48.35l.68 1.63c.09.24.06.4-.04.55l-.42.55c-.12.14-.24.29-.1.53.15.25.64 1.05 1.38 1.7.95.85 1.76 1.12 2 1.25.24.12.38.1.52-.06l.65-.76c.16-.18.32-.15.54-.08l1.72.82c.25.12.42.18.48.28.06.1.06.59-.14 1.15-.2.56-1.14 1.07-1.57 1.13-.4.06-.91.09-1.47-.09-.34-.11-.78-.25-1.34-.5-2.35-1.04-3.88-3.46-4-3.62-.12-.16-.96-1.28-.96-2.44 0-1.16.6-1.73.82-1.96Z" /></svg>;
+  }
+
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>;
+}
+
 function SiteNavbar({
   content,
   menuOpen,
@@ -1534,8 +1546,11 @@ function ContactSection({
                 rel={channel.external ? "noreferrer" : undefined}
                 dir="ltr"
               >
-                <small dir={content.direction}>{channel.label}</small>
-                {channel.value}
+                <span className="contact-direct__icon" aria-hidden="true"><ContactChannelIcon href={channel.href} /></span>
+                <span className="contact-direct__copy">
+                  <small dir={content.direction}>{channel.label}</small>
+                  <span>{channel.value}</span>
+                </span>
               </a>
             ))}
           </div>

@@ -2407,12 +2407,36 @@ html[lang="en"] .lang-ar {
 }
 
 .contact-direct a {
-  display: grid;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   min-width: 0;
   padding: 22px;
   overflow-wrap: anywhere;
   border-inline-end: 1px solid var(--alaska-line);
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+.contact-direct__icon {
+  display: inline-grid;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(49, 197, 107, 0.42);
+  border-radius: 50%;
+  color: var(--alaska-neon-bright);
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s var(--ease-out);
+}
+
+.contact-direct__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contact-direct__copy {
+  display: grid;
+  min-width: 0;
 }
 
 .contact-direct a:last-child {
@@ -2435,6 +2459,14 @@ html[lang="en"] .lang-ar {
 .contact-direct a:hover small,
 .contact-direct a:focus-visible small {
   color: var(--alaska-black);
+}
+
+.contact-direct a:hover .contact-direct__icon,
+.contact-direct a:focus-visible .contact-direct__icon {
+  border-color: var(--alaska-black);
+  background: var(--alaska-black);
+  color: var(--alaska-neon);
+  transform: translateY(-2px);
 }
 
 .contact-inquiry,

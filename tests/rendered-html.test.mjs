@@ -67,6 +67,8 @@ test("static production source contains the complete bilingual experience", asyn
   assert.match(html, /data-platform="outlook"/);
   assert.match(html, /data-platform="yahoo"/);
   assert.match(html, /data-platform="default"/);
+  assert.equal((html.match(/class="contact-direct__icon"/g) ?? []).length, 3);
+  assert.match(html, /https:\/\/wa\.me\/218923142069[\s\S]*<svg viewBox="0 0 24 24"/);
 
   assert.doesNotMatch(html, /Libyan Lands|llc\.com\.ly/i);
 });
@@ -143,6 +145,7 @@ test("production and quality sections define the scoped cinematic depth interact
   assert.match(script, /addEventListener\("resize", scheduleScrollEffects\)/);
   assert.match(script, /new ResizeObserver\(scheduleScrollEffects\)/);
   assert.match(component, /useIndustrialDepthEffects/);
+  assert.match(component, /function ContactChannelIcon/);
   assert.match(component, /new ResizeObserver\(scheduleProgress\)/);
   assert.match(component, /data-process-stages/);
   assert.match(component, /data-quality-visual/);
