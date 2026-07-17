@@ -11,11 +11,16 @@
   let lenis = null;
 
   const updateScrollLock = () => {
-    const locked = body.classList.contains("is-loading") || body.classList.contains("menu-open") || body.classList.contains("modal-open");
+    const locked = body.classList.contains("is-loading") || body.classList.contains("menu-open") || body.classList.contains("modal-open") || body.classList.contains("language-transitioning");
     body.classList.toggle("scroll-locked", locked);
   };
 
   const languageToggle = document.querySelector("[data-language-toggle]");
+  const languageTransition = document.querySelector("[data-language-transition]");
+  const languageTransitionFrom = document.querySelector("[data-language-transition-from]");
+  const languageTransitionTo = document.querySelector("[data-language-transition-to]");
+  const languageTransitionMessage = document.querySelector("[data-language-transition-message]");
+  let languageTransitionTimers = [];
   const setLanguage = (language) => {
     const isArabic = language === "ar";
     root.lang = language;
@@ -29,9 +34,38 @@
   };
 
   languageToggle?.addEventListener("click", () => {
+    if (body.classList.contains("language-transitioning")) return;
+
     const nextLanguage = root.lang === "ar" ? "en" : "ar";
-    setLanguage(nextLanguage);
+    const movingToArabic = nextLanguage === "ar";
+    const swapDelay = reducedMotion.matches ? 160 : 620;
+    const finishDelay = reducedMotion.matches ? 520 : 1550;
+
+    languageTransitionTimers.forEach((timer) => window.clearTimeout(timer));
+    languageTransitionTimers = [];
+
+    if (languageTransitionFrom) languageTransitionFrom.textContent = movingToArabic ? "ENGLISH" : "العربية";
+    if (languageTransitionTo) languageTransitionTo.textContent = movingToArabic ? "العربية" : "ENGLISH";
+    if (languageTransitionMessage) languageTransitionMessage.textContent = movingToArabic ? "جاري تثبيت اللغة العربية" : "SWITCHING TO ENGLISH";
+
     closeMenu();
+    body.classList.add("language-transitioning");
+    languageTransition?.classList.add("is-active");
+    languageTransition?.setAttribute("aria-hidden", "false");
+    languageToggle.disabled = true;
+    updateScrollLock();
+
+    languageTransitionTimers.push(window.setTimeout(() => {
+      setLanguage(nextLanguage);
+    }, swapDelay));
+
+    languageTransitionTimers.push(window.setTimeout(() => {
+      languageTransition?.classList.remove("is-active");
+      languageTransition?.setAttribute("aria-hidden", "true");
+      body.classList.remove("language-transitioning");
+      languageToggle.disabled = false;
+      updateScrollLock();
+    }, finishDelay));
   });
 
   const preloader = document.querySelector(".alaska-preloader");
@@ -67,6 +101,7 @@
 
   if (!reducedMotion.matches && typeof window.Lenis === "function") {
     lenis = new window.Lenis({ smoothWheel: true, lerp: 0.085, wheelMultiplier: 0.9 });
+    window.lenis = lenis;
     const lenisFrame = (time) => {
       lenis.raf(time);
       window.requestAnimationFrame(lenisFrame);
@@ -207,7 +242,20 @@
   const navigation = document.querySelector(".alaska-nav");
   const heroMedia = document.querySelector("[data-hero-media]");
   const heroContent = document.querySelector("[data-hero-content]");
+  const backToTopBtn = document.getElementById("back-to-top");
   let scrollFrame = 0;
+
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener("click", () => {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      backToTopBtn.classList.remove("is-visible");
+    });
+  }
+
   const updateScrollEffects = () => {
     const scrollTop = window.scrollY;
     if (navigation) navigation.dataset.scrolled = String(scrollTop > 40);
@@ -217,6 +265,14 @@
       heroMedia.style.transform = `scale(${1 + ratio * 0.2})`;
       heroContent.style.opacity = String(Math.max(1 - ratio * 1.7, 0));
       heroContent.style.transform = `translate3d(0, ${ratio * 42}px, 0)`;
+    }
+    if (backToTopBtn) {
+      const heroHeight = Math.max(window.innerHeight, 1);
+      if (scrollTop > heroHeight) {
+        backToTopBtn.classList.add("is-visible");
+      } else {
+        backToTopBtn.classList.remove("is-visible");
+      }
     }
     scrollFrame = 0;
   };
@@ -250,8 +306,6 @@
     document.addEventListener("pointermove", (event) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
-      const interactive = event.target instanceof Element && event.target.closest("a,button,input,textarea,iframe");
-      cursorScale = interactive ? 4 : 1;
     }, { passive: true });
     const renderCursor = () => {
       cursorX += (pointerX - cursorX) * 0.24;

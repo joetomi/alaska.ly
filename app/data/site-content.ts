@@ -245,7 +245,7 @@ export const siteContent = {
         {
           label: "الرئيسية",
           href: "#top",
-          previewImage: "/hero-factory-v2.png",
+          previewImage: "/menu-home-preview.jpg",
           previewAlt: "مصنع الاسكا",
         },
         {
@@ -281,7 +281,7 @@ export const siteContent = {
         {
           label: "موقع المصنع",
           href: "#location",
-          previewImage: "/hero-factory.webp",
+          previewImage: "/menu-location-preview.jpg",
           previewAlt: "مصنع الاسكا في زليتن",
         },
         {
@@ -295,8 +295,8 @@ export const siteContent = {
     hero: {
       eyebrow: "أكياس منسوجة للاستخدامات اليومية",
       title: {
-        primary: "ننسج القوة.",
-        accent: "نحمي منتجك.",
+        primary: "شركة الاسكا",
+        accent: "لصناعة أكياس الأعلاف",
       },
       description:
         "شركة الاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة، نقدم حلول تعبئة عملية للأرز والأعلاف والفحم والخضروات والأسمدة.",
@@ -584,7 +584,7 @@ export const siteContent = {
         {
           label: "Home",
           href: "#top",
-          previewImage: "/hero-factory-en.jpg",
+          previewImage: "/menu-home-preview.jpg",
           previewAlt: "Alaska factory",
         },
         {
@@ -620,7 +620,7 @@ export const siteContent = {
         {
           label: "Factory location",
           href: "#location",
-          previewImage: "/hero-factory.webp",
+          previewImage: "/menu-location-preview.jpg",
           previewAlt: "Alaska factory in Zliten",
         },
         {

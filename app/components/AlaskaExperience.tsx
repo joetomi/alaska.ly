@@ -211,6 +211,10 @@ function SmoothScroll() {
           syncTouch: false,
         });
 
+    if (lenis) {
+      (window as any).lenis = lenis;
+    }
+
     const frame = (time: number) => {
       lenis?.raf(time);
       frameId = window.requestAnimationFrame(frame);
@@ -259,7 +263,10 @@ function SmoothScroll() {
     return () => {
       document.removeEventListener("click", handleAnchorClick);
       if (frameId) window.cancelAnimationFrame(frameId);
-      lenis?.destroy();
+      if (lenis) {
+        (window as any).lenis = undefined;
+        lenis.destroy();
+      }
     };
   }, [prefersReducedMotion]);
 
@@ -416,16 +423,54 @@ function CustomCursor() {
       style={{ x: cursorX, y: cursorY }}
       animate={{
         opacity: visible ? 1 : 0,
-        scale: interactive ? 4 : 1,
+        scale: 1,
       }}
       transition={{ opacity: { duration: 0.15 }, scale: { duration: 0.22 } }}
     />
   );
 }
 
+function BackToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroHeight = window.innerHeight;
+      setVisible(window.scrollY > heroHeight);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleClick = () => {
+    setVisible(false);
+    const globalLenis = (window as any).lenis;
+    if (globalLenis) {
+      globalLenis.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <button
+      className={`back-to-top ${visible ? "is-visible" : ""}`}
+      onClick={handleClick}
+      aria-label="العودة إلى الأعلى"
+      type="button"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1={12} y1={19} x2={12} y2={5} />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+    </button>
+  );
+}
+
 type NavbarProps = {
   content: SiteContent;
   menuOpen: boolean;
+  languageTransitioning: boolean;
   onMenuOpenChange: (open: boolean) => void;
   onLanguageChange: () => void;
 };
@@ -433,6 +478,7 @@ type NavbarProps = {
 function SiteNavbar({
   content,
   menuOpen,
+  languageTransitioning,
   onMenuOpenChange,
   onLanguageChange,
 }: NavbarProps) {
@@ -485,6 +531,7 @@ function SiteNavbar({
             className="language-button"
             type="button"
             onClick={onLanguageChange}
+            disabled={languageTransitioning}
             aria-label={content.navigation.languageAriaLabel}
           >
             {content.languageSwitchLabel}
@@ -640,6 +687,7 @@ function HeroSection({
         </motion.p>
         <motion.h1
           id="hero-title"
+          className={content.language === "ar" ? "alaska-hero__company-title" : undefined}
           variants={{ hidden: { opacity: 0, y: 55 }, visible: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.75, ease: EASE_EXPO }}
         >
@@ -678,7 +726,11 @@ function HeroSection({
         <span>ALASKA / 2019 / ZLITEN · LIBYA</span>
         <a href="#about" aria-label={content.hero.scrollLabel}>
           <span>{content.hero.scrollLabel}</span>
-          <i aria-hidden="true">↓</i>
+          <i aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </i>
         </a>
       </div>
     </section>
@@ -686,7 +738,7 @@ function HeroSection({
 }
 
 function MarqueeBand({ content }: { content: SiteContent }) {
-  const repeatedWords = Array.from({ length: 4 }, () => content.marquee.words).flat();
+  const repeatedWords = Array.from({ length: 3 }, () => content.marquee.words).flat();
 
   return (
     <div
@@ -1308,12 +1360,48 @@ function SiteFooter({ content }: { content: SiteContent }) {
   );
 }
 
+type LanguageTransitionOverlayProps = {
+  active: boolean;
+  targetLanguage: SiteLanguage;
+};
+
+function LanguageTransitionOverlay({ active, targetLanguage }: LanguageTransitionOverlayProps) {
+  const movingToArabic = targetLanguage === "ar";
+
+  return (
+    <div
+      className={`language-transition${active ? " is-active" : ""}`}
+      role="status"
+      aria-live="polite"
+      aria-hidden={!active}
+      dir="ltr"
+    >
+      <div className="language-transition__grid" aria-hidden="true" />
+      <div className="language-transition__content">
+        <div className="language-transition__mark" aria-hidden="true">
+          <span>ع</span>
+          <span>A</span>
+        </div>
+        <p>{movingToArabic ? "جاري تثبيت اللغة العربية" : "SWITCHING TO ENGLISH"}</p>
+        <div className="language-transition__route" aria-hidden="true">
+          <span>{movingToArabic ? "ENGLISH" : "العربية"}</span>
+          <b>→</b>
+          <strong>{movingToArabic ? "العربية" : "ENGLISH"}</strong>
+        </div>
+        <div className="language-transition__progress" aria-hidden="true"><span /></div>
+      </div>
+    </div>
+  );
+}
+
 export default function AlaskaExperience() {
   const [language, setLanguage] = useState<SiteLanguage>(defaultLanguage);
   const [menuOpen, setMenuOpen] = useState(false);
   const [experienceReady, setExperienceReady] = useState(false);
+  const [languageTransitionTarget, setLanguageTransitionTarget] = useState<SiteLanguage | null>(null);
   const scrollPositionRef = useRef({ x: 0, y: 0 });
   const pendingLanguageScrollRef = useRef(false);
+  const languageTransitionTimersRef = useRef<number[]>([]);
   const content = siteContent[language];
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -1328,12 +1416,33 @@ export default function AlaskaExperience() {
     return () => window.cancelAnimationFrame(frame);
   }, [content.direction, content.language]);
 
+  useEffect(() => () => {
+    languageTransitionTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    document.body.classList.remove("language-transitioning");
+  }, []);
+
   const switchLanguage = useCallback(() => {
+    if (languageTransitionTarget) return;
+
+    const nextLanguage: SiteLanguage = language === "ar" ? "en" : "ar";
+    const swapDelay = prefersReducedMotion ? 160 : 620;
+    const finishDelay = prefersReducedMotion ? 520 : 1550;
+
     scrollPositionRef.current = { x: window.scrollX, y: window.scrollY };
     pendingLanguageScrollRef.current = true;
     setMenuOpen(false);
-    setLanguage((currentLanguage) => currentLanguage === "ar" ? "en" : "ar");
-  }, []);
+    setLanguageTransitionTarget(nextLanguage);
+    document.body.classList.add("language-transitioning");
+
+    languageTransitionTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    languageTransitionTimersRef.current = [
+      window.setTimeout(() => setLanguage(nextLanguage), swapDelay),
+      window.setTimeout(() => {
+        document.body.classList.remove("language-transitioning");
+        setLanguageTransitionTarget(null);
+      }, finishDelay),
+    ];
+  }, [language, languageTransitionTarget, prefersReducedMotion]);
 
   const setMenuState = useCallback((open: boolean) => setMenuOpen(open), []);
   const completePreloader = useCallback(() => setExperienceReady(true), []);
@@ -1349,10 +1458,16 @@ export default function AlaskaExperience() {
       </a>
       <SmoothScroll />
       <AlaskaPreloader content={content} onComplete={completePreloader} />
+      <LanguageTransitionOverlay
+        active={languageTransitionTarget !== null}
+        targetLanguage={languageTransitionTarget ?? language}
+      />
       <CustomCursor />
+      <BackToTopButton />
       <SiteNavbar
         content={content}
         menuOpen={menuOpen}
+        languageTransitioning={languageTransitionTarget !== null}
         onMenuOpenChange={setMenuState}
         onLanguageChange={switchLanguage}
       />
