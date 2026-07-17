@@ -70,9 +70,10 @@ test("static production source contains the complete bilingual experience", asyn
   assert.equal((html.match(/class="contact-direct__icon"/g) ?? []).length, 3);
   assert.match(html, /https:\/\/wa\.me\/218923142069[\s\S]*<svg viewBox="0 0 24 24"/);
   const footer = html.match(/<footer class="alaska-footer">[\s\S]*?<\/footer>/)?.[0] ?? "";
-  assert.match(footer, /الفرع الوحيد/);
+  assert.match(footer, /محلة السبعة، زليتن، ليبيا/);
   assert.match(footer, /data-privacy-link/);
   assert.doesNotMatch(footer, /alaska-logo\.webp/);
+  assert.doesNotMatch(footer, /الفرع الوحيد/);
 
   assert.doesNotMatch(html, /Libyan Lands|llc\.com\.ly/i);
 });

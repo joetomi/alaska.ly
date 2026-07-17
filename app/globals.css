@@ -2685,28 +2685,17 @@ html[lang="en"] .lang-ar {
   letter-spacing: -0.04em;
 }
 
-.alaska-footer__details {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: clamp(32px, 7vw, 120px);
-  padding: 0 var(--page-padding) clamp(48px, 7vw, 90px);
-  align-items: start;
-}
-
-.alaska-footer__location {
-  display: grid;
-  gap: 8px;
-}
-
-.alaska-footer__location > strong {
-  font-size: clamp(1.45rem, 2.5vw, 2.15rem);
-  line-height: 1.05;
-}
-
-.alaska-footer__location address {
+.alaska-footer__address {
+  display: block;
+  margin-block-start: 20px;
   color: rgba(7, 16, 14, 0.76);
-  font-size: clamp(0.94rem, 1.5vw, 1.08rem);
+  font-size: clamp(1rem, 1.8vw, 1.28rem);
   font-style: normal;
+}
+
+.alaska-footer__details {
+  display: block;
+  padding: 0 var(--page-padding) clamp(48px, 7vw, 90px);
 }
 
 .alaska-footer__contact {

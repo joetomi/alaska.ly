@@ -1583,19 +1583,13 @@ function SiteFooter({ content }: { content: SiteContent }) {
     <footer className="alaska-footer">
       <div className="alaska-footer__main">
         <p>{content.footer.title}</p>
+        <address className="alaska-footer__address">{content.location.address}</address>
       </div>
       <div className="alaska-footer__details">
-        <div className="alaska-footer__location">
-          <strong>{content.language === "ar" ? "الفرع الوحيد" : "OUR ONLY LOCATION"}</strong>
-          <address>
-          {content.location.address}
-          </address>
-        </div>
         <div className="alaska-footer__contact">
           <a href={siteDetails.phone.href} dir="ltr"><small dir={content.direction}>{content.footer.phoneLabel}</small>{siteDetails.phone.display}</a>
           <a href={siteDetails.whatsapp.href} target="_blank" rel="noreferrer" dir="ltr"><small dir={content.direction}>{content.footer.whatsappLabel}</small>{siteDetails.whatsapp.display}</a>
           <a href={siteDetails.email.href} dir="ltr"><small dir={content.direction}>{content.footer.emailLabel}</small>{siteDetails.email.display}</a>
-          <a href="https://alaska.ly" dir="ltr"><small dir={content.direction}>{content.footer.websiteLabel}</small>{siteDetails.website}</a>
         </div>
       </div>
       <div className="alaska-footer__bottom">
