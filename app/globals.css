@@ -3336,3 +3336,11 @@ html[lang="en"] .lang-ar {
     transform: scaleY(1) !important;
   }
 }
+
+@media (max-width: 900px) {
+  /* Revert letter-spacing for Arabic cursive connections on mobile viewports */
+  [dir="rtl"] *,
+  .lang-ar {
+    letter-spacing: normal !important;
+  }
+}
