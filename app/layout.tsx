@@ -44,7 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="font/ttf"
           crossOrigin="anonymous"
         />
-        <link rel="preload" href="/alaska-logo.png" as="image" type="image/png" />
+        <link rel="preload" href="/alaska-logo.webp" as="image" type="image/webp" />
         <link rel="preload" href="/hero-factory-v2.png" as="image" type="image/png" />
       </head>
       <body>{children}</body>

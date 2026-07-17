@@ -519,7 +519,7 @@ function SiteNavbar({
     <>
       <header className="alaska-nav" data-scrolled={String(scrolled)}>
         <a className="alaska-nav__brand" href="#top" aria-label={`${content.brand.name} — ${content.navigation.items[0].label}`}>
-          <img src="/alaska-logo.png" width={68} height={68} alt={content.brand.logoAlt} />
+          <img src="/alaska-logo.webp" width={52} height={52} alt={content.brand.logoAlt} />
           <span>
             <strong>{content.brand.name}</strong>
             <small>{content.brand.descriptor}</small>
@@ -1439,7 +1439,7 @@ function SiteFooter({ content }: { content: SiteContent }) {
       </div>
       <div className="alaska-footer__details">
         <div className="alaska-footer__brand">
-          <img src="/alaska-logo.png" width={88} height={88} alt="" />
+          <img src="/alaska-logo.webp" width={76} height={76} alt="" />
           <strong>{content.brand.name}</strong>
           <span>{content.footer.companyDescription}</span>
         </div>

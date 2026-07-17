@@ -528,8 +528,8 @@ html[lang="en"] .lang-ar {
 }
 
 .alaska-nav__brand img {
-  width: 68px;
-  height: 68px;
+  width: 54px;
+  height: 54px;
   flex: 0 0 auto;
   object-fit: contain;
   border-radius: 50%;
@@ -2211,8 +2211,8 @@ html[lang="en"] .lang-ar {
   :root { --nav-height: 76px; }
 
   .alaska-nav__brand img {
-    width: 56px;
-    height: 56px;
+    width: 46px;
+    height: 46px;
   }
 
   .alaska-nav__brand strong { font-size: 1.05rem; }
@@ -2483,7 +2483,7 @@ html[lang="en"] .lang-ar {
 
 @media (max-width: 380px) {
   .alaska-nav__brand strong { font-size: 0.92rem; letter-spacing: 0.12em; }
-  .alaska-nav__brand img { width: 48px; height: 48px; }
+  .alaska-nav__brand img { width: 40px; height: 40px; }
   .alaska-nav__brand { gap: 8px; }
   .language-button { min-width: 46px; }
   .menu-button { min-width: 62px; font-size: 0.68rem; }

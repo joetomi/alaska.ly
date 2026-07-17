@@ -6,7 +6,7 @@ const root = new URL("../", import.meta.url);
 const source = (path) => readFile(new URL(path, root), "utf8");
 
 const requiredAssets = [
-  "public/alaska-logo.png",
+  "public/alaska-logo.webp",
   "public/hero-factory-v2.png",
   "public/hero-factory-en.jpg",
   "public/hero-factory.webp",
