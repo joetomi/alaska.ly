@@ -519,7 +519,7 @@ function SiteNavbar({
     <>
       <header className="alaska-nav" data-scrolled={String(scrolled)}>
         <a className="alaska-nav__brand" href="#top" aria-label={`${content.brand.name} — ${content.navigation.items[0].label}`}>
-          <img src="/alaska-logo.webp" width={52} height={52} alt={content.brand.logoAlt} />
+          <img src="/alaska-logo.png" width={68} height={68} alt={content.brand.logoAlt} />
           <span>
             <strong>{content.brand.name}</strong>
             <small>{content.brand.descriptor}</small>
@@ -949,9 +949,6 @@ function ProcessSection({
 }) {
   return (
     <section className="alaska-section process-section" id="process" aria-labelledby="process-title">
-      <div className="process-section__media">
-        <img src={content.process.image} width={1677} height={938} alt={content.process.imageAlt} loading="lazy" />
-      </div>
       <div className="alaska-container process-section__content">
         <motion.header
           className="section-heading section-heading--center reveal"
@@ -964,22 +961,108 @@ function ProcessSection({
           <SectionTitle id="process-title" title={content.process.title} />
           <p className="section-description section-lead">{content.process.description}</p>
         </motion.header>
-        <div className="process-steps">
+
+        <section className="raw-materials" aria-labelledby="raw-materials-title">
+          <motion.header
+            className="raw-materials__heading reveal"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 35 }}
+            whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.7, ease: EASE_EXPO }}
+          >
+            <p className="section-kicker"><span aria-hidden="true" />{content.process.rawMaterials.label}</p>
+            <SectionTitle id="raw-materials-title" title={content.process.rawMaterials.title} />
+          </motion.header>
+          <div className="raw-materials__grid">
+            {content.process.rawMaterials.items.map((material, index) => (
+              <motion.article
+                className="raw-material-card reveal"
+                key={material.name}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 35 }}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.65, delay: index * 0.08, ease: EASE_EXPO }}
+              >
+                <div className="raw-material-card__media">
+                  <img
+                    src={material.image}
+                    width={material.imageWidth}
+                    height={material.imageHeight}
+                    alt={material.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="raw-material-card__copy">
+                  <span>{material.number}</span>
+                  <h3>{material.name}</h3>
+                  <p>{material.description}</p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        <div className="process-stages">
           {content.process.steps.map((step, index) => (
             <motion.article
-              className="process-step reveal"
+              className="process-stage reveal"
               key={step.number}
-              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9, y: 35 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 45 }}
+              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.65, delay: index * 0.08, ease: EASE_EXPO }}
+              transition={{ duration: 0.7, delay: index * 0.06, ease: EASE_EXPO }}
             >
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
+              <a
+                className="process-stage__media"
+                href={step.image}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${step.imageLinkLabel}: ${step.title}`}
+              >
+                <img
+                  src={step.image}
+                  width={step.imageWidth}
+                  height={step.imageHeight}
+                  alt={step.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <div className="process-stage__copy">
+                <span className="process-stage__number">{step.number}</span>
+                <h3>{step.title}</h3>
+                <p className="process-stage__machine">{step.machine}</p>
+                <p className="process-stage__description">{step.description}</p>
+                <div className="process-stage__result">
+                  <span>{content.process.resultLabel}</span>
+                  <strong>{step.result}</strong>
+                </div>
+                <a
+                  className="process-stage__image-link"
+                  href={step.image}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${step.imageLinkLabel}: ${step.title}`}
+                >
+                  {step.imageLinkLabel}<i aria-hidden="true">↗</i>
+                </a>
+              </div>
             </motion.article>
           ))}
         </div>
+
+        <motion.aside
+          className="finished-product reveal"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 35 }}
+          whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.7, ease: EASE_EXPO }}
+        >
+          <span>{content.process.finishedProduct.label}</span>
+          <h3>{content.process.finishedProduct.name}</h3>
+          <p>{content.process.finishedProduct.description}</p>
+        </motion.aside>
       </div>
     </section>
   );
@@ -1002,10 +1085,30 @@ function QualitySection({
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.8, ease: EASE_EXPO }}
         >
-          <div className="quality-section__frame">
-            <img src={content.quality.image} width={720} height={1280} alt={content.quality.imageAlt} loading="lazy" />
-          </div>
+          <a
+            className="quality-section__frame"
+            href={content.quality.image}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={content.quality.imageLinkLabel}
+          >
+            <img
+              src={content.quality.image}
+              width={content.quality.imageWidth}
+              height={content.quality.imageHeight}
+              alt={content.quality.imageAlt}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
           <figcaption><strong>QC</strong><span>{content.quality.badge}</span></figcaption>
+          <div
+            className="quality-reading"
+            aria-label={`${content.quality.reading.label}: ${content.quality.reading.value}`}
+          >
+            <strong dir="ltr">{content.quality.reading.value}</strong>
+            <span>{content.quality.reading.label}</span>
+          </div>
         </motion.figure>
         <motion.div
           className="quality-section__copy reveal"
@@ -1336,7 +1439,7 @@ function SiteFooter({ content }: { content: SiteContent }) {
       </div>
       <div className="alaska-footer__details">
         <div className="alaska-footer__brand">
-          <img src="/alaska-logo.webp" width={76} height={76} alt="" />
+          <img src="/alaska-logo.png" width={88} height={88} alt="" />
           <strong>{content.brand.name}</strong>
           <span>{content.footer.companyDescription}</span>
         </div>
@@ -1440,6 +1543,11 @@ export default function AlaskaExperience() {
       window.setTimeout(() => {
         document.body.classList.remove("language-transitioning");
         setLanguageTransitionTarget(null);
+        const { x, y } = scrollPositionRef.current;
+        window.requestAnimationFrame(() => {
+          window.scrollTo(x, y);
+          window.requestAnimationFrame(() => window.scrollTo(x, y));
+        });
       }, finishDelay),
     ];
   }, [language, languageTransitionTarget, prefersReducedMotion]);

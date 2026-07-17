@@ -28,14 +28,42 @@ export type ProductItem = {
   readonly cta: string;
 };
 
+export type RawMaterialItem = {
+  readonly number: string;
+  readonly name: string;
+  readonly description: string;
+  readonly image: string;
+  readonly imageAlt: string;
+  readonly imageWidth: number;
+  readonly imageHeight: number;
+};
+
 export type ProcessStep = {
   readonly number: string;
   readonly title: string;
+  readonly machine: string;
+  readonly description: string;
+  readonly result: string;
+  readonly image: string;
+  readonly imageAlt: string;
+  readonly imageWidth: number;
+  readonly imageHeight: number;
+  readonly imageLinkLabel: string;
+};
+
+export type FinishedProduct = {
+  readonly label: string;
+  readonly name: string;
   readonly description: string;
 };
 
 export type QualityPoint = {
   readonly number: string;
+  readonly label: string;
+};
+
+export type QualityReading = {
+  readonly value: string;
   readonly label: string;
 };
 
@@ -122,9 +150,14 @@ export type SiteContent = {
     readonly label: string;
     readonly title: TitleParts;
     readonly description: string;
-    readonly image: string;
-    readonly imageAlt: string;
+    readonly rawMaterials: {
+      readonly label: string;
+      readonly title: TitleParts;
+      readonly items: readonly RawMaterialItem[];
+    };
+    readonly resultLabel: string;
     readonly steps: readonly ProcessStep[];
+    readonly finishedProduct: FinishedProduct;
   };
   readonly quality: {
     readonly label: string;
@@ -132,7 +165,11 @@ export type SiteContent = {
     readonly description: string;
     readonly image: string;
     readonly imageAlt: string;
+    readonly imageWidth: number;
+    readonly imageHeight: number;
+    readonly imageLinkLabel: string;
     readonly badge: string;
+    readonly reading: QualityReading;
     readonly points: readonly QualityPoint[];
   };
   readonly location: {
@@ -257,7 +294,7 @@ export const siteContent = {
         {
           label: "نقاط القوة",
           href: "#strengths",
-          previewImage: "/alaska-logo.webp",
+          previewImage: "/alaska-logo.png",
           previewAlt: "شعار شركة الاسكا",
         },
         {
@@ -431,45 +468,118 @@ export const siteContent = {
       },
       description:
         "رحلة تصنيع مترابطة تحول خامات البولي بروبلين إلى نسيج عملي معد للتعبئة.",
-      image: "/weaving-line.webp",
-      imageAlt: "خط نسج الأكياس في مصنع الاسكا",
+      rawMaterials: {
+        label: "المواد الخام",
+        title: {
+          primary: "بداية الإنتاج.",
+          accent: "من خامات واضحة.",
+        },
+        items: [
+          {
+            number: "01",
+            name: "ماسترباتش الألوان",
+            description:
+              "حبيبات لونية تخلط مع البولي بروبيلين لإنتاج الأشرطة والأكياس باللون المطلوب.",
+            image: "/process/raw-material-color-masterbatch.webp",
+            imageAlt: "ماسترباتش الألوان المستخدم في إنتاج الأكياس المنسوجة",
+            imageWidth: 700,
+            imageHeight: 394,
+          },
+          {
+            number: "02",
+            name: "حبيبات البولي بروبيلين PP",
+            description:
+              "المادة الأساسية التي تدخل خط الإنتاج لتشكيل الأشرطة البلاستيكية المستخدمة في صناعة القماش المنسوج.",
+            image: "/process/raw-material-polypropylene-granules.webp",
+            imageAlt: "حبيبات البولي بروبيلين المستخدمة في إنتاج القماش المنسوج",
+            imageWidth: 800,
+            imageHeight: 533,
+          },
+        ],
+      },
+      resultLabel: "الناتج",
       steps: [
         {
           number: "01",
-          title: "تجهيز الخام",
-          description: "تجهيز حبيبات البولي بروبلين للبدء في عملية الإنتاج.",
+          title: "خلط الخام وتغذيته",
+          machine: "وحدة خلط وتغذية المواد الخام",
+          description:
+            "تُخلط حبيبات البولي بروبيلين مع ماسترباتش اللون، ثم تُنقل الخامة إلى قادوس خط إنتاج الأشرطة لبدء عملية التصنيع.",
+          result: "خليط خام جاهز لخط الإنتاج",
+          image: "/process/process-raw-material-mixing-feeding.webp",
+          imageAlt: "خلط وتغذية حبيبات البولي بروبيلين في مصنع الاسكا",
+          imageWidth: 2561,
+          imageHeight: 1921,
+          imageLinkLabel: "عرض صورة المرحلة كاملة",
         },
         {
           number: "02",
-          title: "إنتاج الشرائط",
-          description: "تشكيل الخام إلى شرائط متجانسة وتجهيزها للنسج.",
+          title: "إنتاج الأشرطة وسحبها ولفها",
+          machine: "خط إنتاج أشرطة البولي بروبيلين",
+          description:
+            "تدخل الخامة إلى خط البثق وتُصهر لتكوين فيلم بلاستيكي. بعد التبريد يُقسّم الفيلم إلى أشرطة مسطحة، ثم تمر الأشرطة عبر وحدات السحب قبل لفها على بكرات وتجهيزها للنسيج.",
+          result: "بكرات أشرطة البولي بروبيلين المسطحة",
+          image: "/process/process-pp-tape-extrusion-line.webp",
+          imageAlt: "خط إنتاج وسحب ولف أشرطة البولي بروبيلين في مصنع الاسكا",
+          imageWidth: 2136,
+          imageHeight: 841,
+          imageLinkLabel: "عرض صورة المرحلة كاملة",
         },
         {
           number: "03",
-          title: "النسج والتجهيز",
-          description: "نسج الشرائط وتشكيل الأكياس وفق فئة الاستخدام.",
+          title: "نسج القماش الأنبوبي",
+          machine: "آلة النسيج الدائرية",
+          description:
+            "تُركب بكرات الأشرطة حول آلة النسيج الدائرية، ثم تتشابك الأشرطة طوليًا وعرضيًا لتكوين قماش بولي بروبيلين منسوج على شكل أنبوب مستمر.",
+          result: "رول قماش بولي بروبيلين منسوج أنبوبي",
+          image: "/process/process-circular-loom.webp",
+          imageAlt: "آلة النسيج الدائرية وإنتاج القماش الأنبوبي في مصنع الاسكا",
+          imageWidth: 2136,
+          imageHeight: 840,
+          imageLinkLabel: "عرض صورة المرحلة كاملة",
         },
         {
           number: "04",
-          title: "الفحص النهائي",
-          description: "متابعة العينات والتشطيب قبل تجهيز المنتج.",
+          title: "القطع وثني القاع والخياطة",
+          machine: "آلة قص وثني وخياطة أكياس البولي بروبيلين المنسوجة",
+          description:
+            "يُغذّى رول القماش الأنبوبي إلى خط التحويل ويُقص بالطول المطلوب، ثم تُثنى الحافة السفلية وتُخاط لإغلاق قاع الكيس، مع بقاء الفوهة العلوية مفتوحة للتعبئة.",
+          result: "كيس منسوج مفتوح الفوهة ومخيط من الأسفل",
+          image: "/process/process-bag-cutting-folding-sewing.webp",
+          imageAlt: "خط قص وثني وخياطة أكياس البولي بروبيلين المنسوجة في مصنع الاسكا",
+          imageWidth: 1067,
+          imageHeight: 376,
+          imageLinkLabel: "عرض صورة المرحلة كاملة",
         },
       ],
+      finishedProduct: {
+        label: "المنتج الناتج",
+        name: "كيس بولي بروبيلين منسوج مفتوح الفوهة",
+        description:
+          "كيس منسوج مفتوح من الأعلى للتعبئة، ومغلق بخياطة في الجزء السفلي.",
+      },
     },
     quality: {
-      label: "الجودة",
+      label: "متابعة الوزن والجودة",
       title: {
-        primary: "العناية تبدأ",
-        accent: "من التفاصيل",
+        primary: "العناية تبدأ.",
+        accent: "من التفاصيل.",
       },
       description:
-        "تتم متابعة عينات الإنتاج خلال مراحل التجهيز، مع الاهتمام بانتظام النسيج والتشطيب وملاءمة الكيس للاستخدام المطلوب.",
-      image: "/quality-sample.webp",
-      imageAlt: "متابعة عينة كيس منسوج أثناء فحص الجودة",
-      badge: "متابعة الجودة",
+        "نراجع عينات الأكياس خلال الإنتاج، ونتابع وزن كل عينة باستخدام ميزان رقمي، إلى جانب فحص انتظام النسيج والتشطيب وملاءمة الكيس للاستخدام المطلوب.",
+      image: "/quality/quality-bag-sample-weighing.webp",
+      imageAlt: "وزن عينة كيس منسوج باستخدام ميزان رقمي في مصنع الاسكا",
+      imageWidth: 720,
+      imageHeight: 962,
+      imageLinkLabel: "عرض صورة فحص الجودة كاملة",
+      badge: "متابعة الوزن والجودة",
+      reading: {
+        value: "76 g",
+        label: "قراءة عينة مصورة",
+      },
       points: [
-        { number: "01", label: "متابعة العينات" },
-        { number: "02", label: "فحص النسيج" },
+        { number: "01", label: "وزن عينات الأكياس" },
+        { number: "02", label: "متابعة انتظام النسيج" },
         { number: "03", label: "مراجعة التشطيب" },
       ],
     },
@@ -596,7 +706,7 @@ export const siteContent = {
         {
           label: "Strengths",
           href: "#strengths",
-          previewImage: "/alaska-logo.webp",
+          previewImage: "/alaska-logo.png",
           previewAlt: "Alaska Company logo",
         },
         {
@@ -770,46 +880,119 @@ export const siteContent = {
       },
       description:
         "A connected manufacturing journey that turns polypropylene material into practical woven packaging.",
-      image: "/weaving-line.webp",
-      imageAlt: "Bag weaving line at the Alaska factory",
+      rawMaterials: {
+        label: "RAW MATERIALS",
+        title: {
+          primary: "PRODUCTION STARTS.",
+          accent: "WITH CLEAR MATERIALS.",
+        },
+        items: [
+          {
+            number: "01",
+            name: "Color Masterbatch",
+            description:
+              "Color concentrate mixed with polypropylene to produce tapes and bags in the required color.",
+            image: "/process/raw-material-color-masterbatch.webp",
+            imageAlt: "Color masterbatch used in woven bag production",
+            imageWidth: 700,
+            imageHeight: 394,
+          },
+          {
+            number: "02",
+            name: "Polypropylene Granules (PP)",
+            description:
+              "The primary material fed into the production line to form the plastic tapes used in woven fabric manufacturing.",
+            image: "/process/raw-material-polypropylene-granules.webp",
+            imageAlt: "Polypropylene granules used in woven fabric production",
+            imageWidth: 800,
+            imageHeight: 533,
+          },
+        ],
+      },
+      resultLabel: "OUTPUT",
       steps: [
         {
           number: "01",
-          title: "Material preparation",
-          description: "Polypropylene pellets are prepared for the production process.",
+          title: "Raw Material Mixing & Feeding",
+          machine: "Raw Material Mixing and Feeding Unit",
+          description:
+            "Polypropylene granules are mixed with color masterbatch, then transferred into the tape production line hopper to begin manufacturing.",
+          result: "Prepared raw material mixture",
+          image: "/process/process-raw-material-mixing-feeding.webp",
+          imageAlt: "Mixing and feeding polypropylene granules at the Alaska factory",
+          imageWidth: 2561,
+          imageHeight: 1921,
+          imageLinkLabel: "VIEW FULL IMAGE",
         },
         {
           number: "02",
-          title: "Tape production",
-          description: "Material is formed into consistent tapes ready for weaving.",
+          title: "Tape Extrusion, Stretching & Winding",
+          machine: "PP Tape Extrusion Line",
+          description:
+            "The material enters the extrusion line and is melted to form a plastic film. After cooling, the film is divided into flat tapes, drawn through the line and wound onto bobbins for weaving.",
+          result: "PP flat tape bobbins",
+          image: "/process/process-pp-tape-extrusion-line.webp",
+          imageAlt: "PP tape extrusion, stretching and winding line at the Alaska factory",
+          imageWidth: 2136,
+          imageHeight: 841,
+          imageLinkLabel: "VIEW FULL IMAGE",
         },
         {
           number: "03",
-          title: "Weaving & forming",
-          description: "Tapes are woven and bags are formed for each application.",
+          title: "Circular Weaving",
+          machine: "Circular Loom",
+          description:
+            "The tape bobbins are mounted around the circular loom, where the tapes are interwoven to form a continuous tubular polypropylene woven fabric.",
+          result: "Tubular PP woven fabric roll",
+          image: "/process/process-circular-loom.webp",
+          imageAlt: "The circular loom and tubular fabric production at the Alaska factory",
+          imageWidth: 2136,
+          imageHeight: 840,
+          imageLinkLabel: "VIEW FULL IMAGE",
         },
         {
           number: "04",
-          title: "Final inspection",
-          description: "Samples and finishing are reviewed before preparation.",
+          title: "Cutting, Bottom Folding & Sewing",
+          machine: "Automatic PP Woven Bag Cutting, Bottom Folding and Sewing Machine",
+          description:
+            "The tubular fabric roll is fed into the conversion line and cut to the required length. The bottom edge is folded and sewn, while the top remains open for filling.",
+          result: "Open-mouth, bottom-sewn woven bag",
+          image: "/process/process-bag-cutting-folding-sewing.webp",
+          imageAlt: "PP woven bag cutting, bottom folding and sewing line at the Alaska factory",
+          imageWidth: 1067,
+          imageHeight: 376,
+          imageLinkLabel: "VIEW FULL IMAGE",
         },
       ],
+      finishedProduct: {
+        label: "THE FINISHED PRODUCT",
+        name: "Open-Mouth PP Woven Bag",
+        description:
+          "A woven bag with an open top for filling and a sewn bottom closure.",
+      },
     },
     quality: {
-      label: "Quality",
+      label: "WEIGHT & QUALITY FOLLOW-UP",
       title: {
-        primary: "Care begins",
-        accent: "with the details",
+        primary: "CARE STARTS.",
+        accent: "WITH DETAILS.",
       },
       description:
-        "Production samples are followed through preparation, with attention to weave consistency, finishing and suitability for the intended use.",
-      image: "/quality-sample.webp",
-      imageAlt: "Woven bag sample during quality follow-up",
-      badge: "Quality follow-up",
+        "We review bag samples during production and check each sample using a digital scale, alongside weave consistency, finishing and suitability for the intended use.",
+      image: "/quality/quality-bag-sample-weighing.webp",
+      imageAlt: "Woven bag sample weighed using a digital scale at the Alaska factory",
+      imageWidth: 720,
+      imageHeight: 962,
+      imageLinkLabel: "VIEW FULL QUALITY IMAGE",
+      badge: "WEIGHT & QUALITY FOLLOW-UP",
+      reading: {
+        value: "76 g",
+        label: "PHOTOGRAPHED SAMPLE READING",
+      },
       points: [
-        { number: "01", label: "Sample follow-up" },
-        { number: "02", label: "Weave inspection" },
-        { number: "03", label: "Finishing review" },
+        { number: "01", label: "BAG SAMPLE WEIGHING" },
+        { number: "02", label: "WEAVE CONSISTENCY CHECK" },
+        { number: "03", label: "FINISH REVIEW" },
       ],
     },
     location: {

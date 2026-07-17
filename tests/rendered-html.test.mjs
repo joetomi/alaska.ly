@@ -6,7 +6,7 @@ const root = new URL("../", import.meta.url);
 const source = (path) => readFile(new URL(path, root), "utf8");
 
 const requiredAssets = [
-  "public/alaska-logo.webp",
+  "public/alaska-logo.png",
   "public/hero-factory-v2.png",
   "public/hero-factory-en.jpg",
   "public/hero-factory.webp",
@@ -18,6 +18,13 @@ const requiredAssets = [
   "public/product-charcoal.webp",
   "public/product-vegetables.webp",
   "public/product-fertilizer.webp",
+  "public/process/raw-material-color-masterbatch.webp",
+  "public/process/raw-material-polypropylene-granules.webp",
+  "public/process/process-raw-material-mixing-feeding.webp",
+  "public/process/process-pp-tape-extrusion-line.webp",
+  "public/process/process-circular-loom.webp",
+  "public/process/process-bag-cutting-folding-sewing.webp",
+  "public/quality/quality-bag-sample-weighing.webp",
   "public/fonts/JumanArabic-Light.ttf",
   "public/fonts/JumanArabic-Normal.ttf",
   "public/fonts/JumanArabic-SemiBold.ttf",
@@ -61,6 +68,23 @@ test("static production source contains the complete bilingual experience", asyn
   assert.match(html, /data-platform="default"/);
 
   assert.doesNotMatch(html, /Libyan Lands|llc\.com\.ly/i);
+});
+
+test("production and quality sections use the supplied local images and exact four-stage flow", async () => {
+  const html = await source("index.html");
+
+  assert.equal((html.match(/class="raw-material-card reveal"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="process-stage reveal"/g) ?? []).length, 4);
+  assert.match(html, /Color Masterbatch/);
+  assert.match(html, /Polypropylene Granules \(PP\)/);
+  assert.match(html, /Raw Material Mixing and Feeding Unit/);
+  assert.match(html, /PP Tape Extrusion Line/);
+  assert.match(html, /Circular Loom/);
+  assert.match(html, /Automatic PP Woven Bag Cutting, Bottom Folding and Sewing Machine/);
+  assert.match(html, /public\/quality\/quality-bag-sample-weighing\.webp/);
+  assert.match(html, /PHOTOGRAPHED SAMPLE READING/);
+  assert.match(html, /76 g/);
+  assert.doesNotMatch(html, /74 g/);
 });
 
 test("design system defines Juman, dark Alaska tokens, responsiveness and reduced motion", async () => {

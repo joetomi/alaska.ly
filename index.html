@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://alaska.ly/og.png">
   <meta name="theme-color" content="#062f2a">
   <link rel="preload" href="public/fonts/JumanArabic-Normal.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="public/alaska-logo.webp" as="image" type="image/webp">
+  <link rel="preload" href="public/alaska-logo.png" as="image" type="image/png">
   <link rel="preload" href="public/hero-factory-v2.png" as="image" type="image/png">
   <link rel="stylesheet" href="app/globals.css">
   <script src="public/vendor/lenis.min.js" defer></script>
@@ -53,7 +53,7 @@
 
   <header class="alaska-nav" data-scrolled="false">
     <a class="alaska-nav__brand" href="#top" aria-label="ALASKA — الرئيسية">
-      <img src="public/alaska-logo.webp" width="52" height="52" alt="شعار ALASKA">
+      <img src="public/alaska-logo.png" width="68" height="68" alt="شعار ALASKA">
       <span><strong>ALASKA</strong><small><span class="lang-ar">صناعة الأكياس المنسوجة</span><span class="lang-en">WOVEN BAG MANUFACTURING</span></small></span>
     </a>
     <div class="alaska-nav__actions">
@@ -167,23 +167,103 @@
       </div>
     </section>
 
-    <section class="alaska-section process-section" id="process">
-      <div class="process-section__media"><img src="public/weaving-line.webp" width="1677" height="938" alt="خط نسج الأكياس في مصنع ALASKA"></div>
+    <section class="alaska-section process-section" id="process" aria-labelledby="process-title">
+      <div class="process-section__media"><img src="public/process/process-pp-tape-extrusion-line.webp" width="2136" height="841" alt="" loading="lazy" decoding="async"></div>
       <div class="alaska-container process-section__content">
-        <header class="section-heading section-heading--center reveal"><p class="section-kicker"><span></span><span class="lang-ar">مراحل التصنيع</span><span class="lang-en">PRODUCTION PROCESS</span></p><h2><span class="lang-ar">من الحبيبات.<br><em>إلى كيس جاهز.</em></span><span class="lang-en">FROM GRANULES.<br><em>TO A FINISHED BAG.</em></span></h2></header>
-        <div class="process-steps">
-          <article class="process-step reveal"><span>01</span><h3><span class="lang-ar">تجهيز الخام</span><span class="lang-en">RAW MATERIAL</span></h3><p><span class="lang-ar">إعداد خامة البولي بروبلين لبدء الإنتاج.</span><span class="lang-en">Preparing polypropylene for production.</span></p></article>
-          <article class="process-step reveal"><span>02</span><h3><span class="lang-ar">إنتاج الشرائط</span><span class="lang-en">TAPE EXTRUSION</span></h3><p><span class="lang-ar">تشكيل الشرائط بالمقاسات المناسبة.</span><span class="lang-en">Forming tapes to the required dimensions.</span></p></article>
-          <article class="process-step reveal"><span>03</span><h3><span class="lang-ar">النسج والتجهيز</span><span class="lang-en">WEAVING & FINISHING</span></h3><p><span class="lang-ar">نسج الخامة وتجهيزها حسب الاستخدام.</span><span class="lang-en">Weaving and preparing the material for its use.</span></p></article>
-          <article class="process-step reveal"><span>04</span><h3><span class="lang-ar">الفحص النهائي</span><span class="lang-en">FINAL INSPECTION</span></h3><p><span class="lang-ar">مراجعة النسيج والتشطيب قبل التسليم.</span><span class="lang-en">Reviewing weave and finish before delivery.</span></p></article>
+        <header class="section-heading section-heading--center reveal">
+          <p class="section-kicker"><span></span><span class="lang-ar">كيف نصنع</span><span class="lang-en">OUR PROCESS</span></p>
+          <h2 id="process-title"><span class="lang-ar">من الحبيبات.<br><em>إلى كيس جاهز.</em></span><span class="lang-en">FROM PELLETS.<br><em>TO A FINISHED BAG.</em></span></h2>
+          <p class="section-description section-lead"><span class="lang-ar">رحلة تصنيع مترابطة تحوّل حبيبات البولي بروبيلين وماسترباتش الألوان إلى كيس منسوج مفتوح الفوهة.</span><span class="lang-en">A connected manufacturing journey that turns polypropylene granules and color masterbatch into an open-mouth woven bag.</span></p>
+        </header>
+
+        <section class="raw-materials" aria-labelledby="raw-materials-title">
+          <header class="raw-materials__heading reveal">
+            <p class="section-kicker"><span></span><span class="lang-ar">المواد الخام</span><span class="lang-en">RAW MATERIALS</span></p>
+            <h3 id="raw-materials-title"><span class="lang-ar">بداية الإنتاج.<br><em>من خامات واضحة.</em></span><span class="lang-en">PRODUCTION STARTS.<br><em>WITH CLEAR MATERIALS.</em></span></h3>
+          </header>
+          <div class="raw-materials__grid">
+            <article class="raw-material-card reveal">
+              <div class="raw-material-card__media"><img src="public/process/raw-material-color-masterbatch.webp" width="700" height="394" alt="حبيبات ماسترباتش الألوان" loading="lazy" decoding="async"></div>
+              <div class="raw-material-card__copy"><span>01</span><h4><span class="lang-ar">ماسترباتش الألوان</span><span class="lang-en">Color Masterbatch</span></h4><p><span class="lang-ar">حبيبات لونية تُخلط مع البولي بروبيلين لإنتاج الأشرطة والأكياس باللون المطلوب.</span><span class="lang-en">Color concentrate mixed with polypropylene to produce tapes and bags in the required color.</span></p></div>
+            </article>
+            <article class="raw-material-card reveal">
+              <div class="raw-material-card__media"><img src="public/process/raw-material-polypropylene-granules.webp" width="800" height="533" alt="حبيبات البولي بروبيلين البيضاء" loading="lazy" decoding="async"></div>
+              <div class="raw-material-card__copy"><span>02</span><h4><span class="lang-ar">حبيبات البولي بروبيلين PP</span><span class="lang-en">Polypropylene Granules (PP)</span></h4><p><span class="lang-ar">المادة الأساسية التي تدخل خط الإنتاج لتشكيل الأشرطة البلاستيكية المستخدمة في صناعة القماش المنسوج.</span><span class="lang-en">The primary material fed into the production line to form the plastic tapes used in woven fabric manufacturing.</span></p></div>
+            </article>
+          </div>
+        </section>
+
+        <div class="process-stages">
+          <article class="process-stage reveal">
+            <a class="process-stage__media" href="public/process/process-raw-material-mixing-feeding.webp" target="_blank" rel="noreferrer" aria-label="عرض صورة مرحلة خلط الخام وتغذيته كاملة"><img src="public/process/process-raw-material-mixing-feeding.webp" width="2561" height="1921" alt="وحدة خلط وتغذية المواد الخام" loading="lazy" decoding="async"></a>
+            <div class="process-stage__copy">
+              <span class="process-stage__number">01</span>
+              <h3><span class="lang-ar">خلط الخام وتغذيته</span><span class="lang-en">Raw Material Mixing &amp; Feeding</span></h3>
+              <p class="process-stage__machine"><span class="lang-ar">وحدة خلط وتغذية المواد الخام</span><span class="lang-en" dir="ltr">Raw Material Mixing and Feeding Unit</span><small class="lang-ar" dir="ltr">Raw Material Mixing and Feeding Unit</small></p>
+              <p class="process-stage__description"><span class="lang-ar">تُخلط حبيبات البولي بروبيلين مع ماسترباتش اللون، ثم تُنقل الخامة إلى قادوس خط إنتاج الأشرطة لبدء عملية التصنيع.</span><span class="lang-en">Polypropylene granules are mixed with color masterbatch, then transferred into the tape production line hopper to begin manufacturing.</span></p>
+              <div class="process-stage__result"><span><span class="lang-ar">الناتج</span><span class="lang-en">OUTPUT</span></span><strong><span class="lang-ar">خليط خام جاهز لخط الإنتاج</span><span class="lang-en">Prepared raw material mixture</span></strong></div>
+              <a class="process-stage__image-link" href="public/process/process-raw-material-mixing-feeding.webp" target="_blank" rel="noreferrer"><span class="lang-ar">عرض صورة المرحلة كاملة</span><span class="lang-en">VIEW FULL IMAGE</span><i aria-hidden="true">↗</i></a>
+            </div>
+          </article>
+
+          <article class="process-stage reveal">
+            <a class="process-stage__media" href="public/process/process-pp-tape-extrusion-line.webp" target="_blank" rel="noreferrer" aria-label="عرض صورة مرحلة إنتاج الأشرطة وسحبها ولفها كاملة"><img src="public/process/process-pp-tape-extrusion-line.webp" width="2136" height="841" alt="خط إنتاج أشرطة البولي بروبيلين" loading="lazy" decoding="async"></a>
+            <div class="process-stage__copy">
+              <span class="process-stage__number">02</span>
+              <h3><span class="lang-ar">إنتاج الأشرطة وسحبها ولفها</span><span class="lang-en">Tape Extrusion, Stretching &amp; Winding</span></h3>
+              <p class="process-stage__machine"><span class="lang-ar">خط إنتاج أشرطة البولي بروبيلين</span><span class="lang-en" dir="ltr">PP Tape Extrusion Line</span><small class="lang-ar" dir="ltr">PP Tape Extrusion Line</small></p>
+              <p class="process-stage__description"><span class="lang-ar">تدخل الخامة إلى خط البثق وتُصهر لتكوين فيلم بلاستيكي. بعد التبريد يُقسّم الفيلم إلى أشرطة مسطحة، ثم تمر الأشرطة عبر وحدات السحب قبل لفها على بكرات وتجهيزها للنسيج.</span><span class="lang-en">The material enters the extrusion line and is melted to form a plastic film. After cooling, the film is divided into flat tapes, drawn through the line and wound onto bobbins for weaving.</span></p>
+              <div class="process-stage__result"><span><span class="lang-ar">الناتج</span><span class="lang-en">OUTPUT</span></span><strong><span class="lang-ar">بكرات أشرطة البولي بروبيلين المسطحة</span><span class="lang-en">PP flat tape bobbins</span></strong></div>
+              <a class="process-stage__image-link" href="public/process/process-pp-tape-extrusion-line.webp" target="_blank" rel="noreferrer"><span class="lang-ar">عرض صورة المرحلة كاملة</span><span class="lang-en">VIEW FULL IMAGE</span><i aria-hidden="true">↗</i></a>
+            </div>
+          </article>
+
+          <article class="process-stage reveal">
+            <a class="process-stage__media" href="public/process/process-circular-loom.webp" target="_blank" rel="noreferrer" aria-label="عرض صورة مرحلة نسج القماش الأنبوبي كاملة"><img src="public/process/process-circular-loom.webp" width="2136" height="840" alt="آلة النسيج الدائرية" loading="lazy" decoding="async"></a>
+            <div class="process-stage__copy">
+              <span class="process-stage__number">03</span>
+              <h3><span class="lang-ar">نسج القماش الأنبوبي</span><span class="lang-en">Circular Weaving</span></h3>
+              <p class="process-stage__machine"><span class="lang-ar">آلة النسيج الدائرية</span><span class="lang-en" dir="ltr">Circular Loom</span><small class="lang-ar" dir="ltr">Circular Loom</small></p>
+              <p class="process-stage__description"><span class="lang-ar">تُركب بكرات الأشرطة حول آلة النسيج الدائرية، ثم تتشابك الأشرطة طوليًا وعرضيًا لتكوين قماش بولي بروبيلين منسوج على شكل أنبوب مستمر.</span><span class="lang-en">The tape bobbins are mounted around the circular loom, where the tapes are interwoven to form a continuous tubular polypropylene woven fabric.</span></p>
+              <div class="process-stage__result"><span><span class="lang-ar">الناتج</span><span class="lang-en">OUTPUT</span></span><strong><span class="lang-ar">رول قماش بولي بروبيلين منسوج أنبوبي</span><span class="lang-en">Tubular PP woven fabric roll</span></strong></div>
+              <a class="process-stage__image-link" href="public/process/process-circular-loom.webp" target="_blank" rel="noreferrer"><span class="lang-ar">عرض صورة المرحلة كاملة</span><span class="lang-en">VIEW FULL IMAGE</span><i aria-hidden="true">↗</i></a>
+            </div>
+          </article>
+
+          <article class="process-stage reveal">
+            <a class="process-stage__media" href="public/process/process-bag-cutting-folding-sewing.webp" target="_blank" rel="noreferrer" aria-label="عرض صورة مرحلة القطع وثني القاع والخياطة كاملة"><img src="public/process/process-bag-cutting-folding-sewing.webp" width="1067" height="376" alt="آلة قص وثني وخياطة أكياس البولي بروبيلين المنسوجة" loading="lazy" decoding="async"></a>
+            <div class="process-stage__copy">
+              <span class="process-stage__number">04</span>
+              <h3><span class="lang-ar">القطع وثني القاع والخياطة</span><span class="lang-en">Cutting, Bottom Folding &amp; Sewing</span></h3>
+              <p class="process-stage__machine"><span class="lang-ar">آلة قص وثني وخياطة أكياس البولي بروبيلين المنسوجة</span><span class="lang-en" dir="ltr">Automatic PP Woven Bag Cutting, Bottom Folding and Sewing Machine</span><small class="lang-ar" dir="ltr">Automatic PP Woven Bag Cutting, Bottom Folding and Sewing Machine</small></p>
+              <p class="process-stage__description"><span class="lang-ar">يُغذّى رول القماش الأنبوبي إلى خط التحويل ويُقص بالطول المطلوب، ثم تُثنى الحافة السفلية وتُخاط لإغلاق قاع الكيس، مع بقاء الفوهة العلوية مفتوحة للتعبئة.</span><span class="lang-en">The tubular fabric roll is fed into the conversion line and cut to the required length. The bottom edge is folded and sewn, while the top remains open for filling.</span></p>
+              <div class="process-stage__result"><span><span class="lang-ar">الناتج</span><span class="lang-en">OUTPUT</span></span><strong><span class="lang-ar">كيس منسوج مفتوح الفوهة ومخيط من الأسفل</span><span class="lang-en">Open-mouth, bottom-sewn woven bag</span></strong></div>
+              <a class="process-stage__image-link" href="public/process/process-bag-cutting-folding-sewing.webp" target="_blank" rel="noreferrer"><span class="lang-ar">عرض صورة المرحلة كاملة</span><span class="lang-en">VIEW FULL IMAGE</span><i aria-hidden="true">↗</i></a>
+            </div>
+          </article>
         </div>
+
+        <aside class="finished-product reveal">
+          <span><span class="lang-ar">المنتج الناتج</span><span class="lang-en">THE FINISHED PRODUCT</span></span>
+          <h3><span class="lang-ar">كيس بولي بروبيلين منسوج مفتوح الفوهة</span><span class="lang-en">Open-Mouth PP Woven Bag</span></h3>
+          <p><span class="lang-ar">كيس منسوج مفتوح من الأعلى للتعبئة، ومغلق بخياطة في الجزء السفلي.</span><span class="lang-en">A woven bag with an open top for filling and a sewn bottom closure.</span></p>
+        </aside>
       </div>
     </section>
 
-    <section class="alaska-section quality-section" id="quality">
+    <section class="alaska-section quality-section" id="quality" aria-labelledby="quality-title">
       <div class="alaska-container quality-section__grid">
-        <figure class="quality-section__visual reveal"><div class="quality-section__frame"><img src="public/quality-sample.webp" width="720" height="1280" alt="متابعة عينة كيس منسوج أثناء فحص الجودة"></div><figcaption><strong>QC</strong><span><span class="lang-ar">متابعة الجودة</span><span class="lang-en">QUALITY FOLLOW-UP</span></span></figcaption></figure>
-        <div class="quality-section__copy reveal"><p class="section-kicker"><span></span><span class="lang-ar">الجودة</span><span class="lang-en">QUALITY</span></p><h2><span class="lang-ar">العناية تبدأ.<br><em>من التفاصيل.</em></span><span class="lang-en">CARE STARTS.<br><em>WITH DETAILS.</em></span></h2><p class="section-lead"><span class="lang-ar">نتابع العينات وانتظام النسيج والتشطيب وملاءمة الكيس للاستخدام المطلوب.</span><span class="lang-en">We follow samples, weave consistency, finishing and suitability for the intended use.</span></p><ol class="quality-list"><li><span>01</span><span class="lang-ar">متابعة العينات</span><span class="lang-en">SAMPLE FOLLOW-UP</span></li><li><span>02</span><span class="lang-ar">فحص النسيج</span><span class="lang-en">WEAVE INSPECTION</span></li><li><span>03</span><span class="lang-ar">مراجعة التشطيب</span><span class="lang-en">FINISH REVIEW</span></li></ol></div>
+        <figure class="quality-section__visual reveal">
+          <a class="quality-section__frame" href="public/quality/quality-bag-sample-weighing.webp" target="_blank" rel="noreferrer" aria-label="عرض صورة وزن عينة الكيس كاملة"><img src="public/quality/quality-bag-sample-weighing.webp" width="720" height="962" alt="عينة كيس منسوج على ميزان رقمي أثناء متابعة الجودة" loading="lazy" decoding="async"></a>
+          <figcaption><strong>QC</strong><span><span class="lang-ar">متابعة الجودة</span><span class="lang-en">QUALITY FOLLOW-UP</span></span></figcaption>
+          <div class="quality-reading"><strong dir="ltr">76 g</strong><span><span class="lang-ar">قراءة عينة مصورة</span><span class="lang-en">PHOTOGRAPHED SAMPLE READING</span></span></div>
+        </figure>
+        <div class="quality-section__copy reveal">
+          <p class="section-kicker"><span></span><span class="lang-ar">متابعة الوزن والجودة</span><span class="lang-en">WEIGHT &amp; QUALITY FOLLOW-UP</span></p>
+          <h2 id="quality-title"><span class="lang-ar">العناية تبدأ.<br><em>من التفاصيل.</em></span><span class="lang-en">CARE STARTS.<br><em>WITH DETAILS.</em></span></h2>
+          <p class="section-lead"><span class="lang-ar">نراجع عينات الأكياس خلال الإنتاج، ونتابع وزن كل عينة باستخدام ميزان رقمي، إلى جانب فحص انتظام النسيج والتشطيب وملاءمة الكيس للاستخدام المطلوب.</span><span class="lang-en">We review bag samples during production and check each sample using a digital scale, alongside weave consistency, finishing and suitability for the intended use.</span></p>
+          <ol class="quality-list"><li><span>01</span><span class="lang-ar">وزن عينات الأكياس</span><span class="lang-en">BAG SAMPLE WEIGHING</span></li><li><span>02</span><span class="lang-ar">متابعة انتظام النسيج</span><span class="lang-en">WEAVE CONSISTENCY CHECK</span></li><li><span>03</span><span class="lang-ar">مراجعة التشطيب</span><span class="lang-en">FINISH REVIEW</span></li></ol>
+        </div>
       </div>
     </section>
 
@@ -203,7 +283,7 @@
 
   <footer class="alaska-footer">
     <div class="alaska-footer__main"><p><span class="lang-ar">تواصل معنا</span><span class="lang-en">CONTACT US</span></p><a href="mailto:abdallhmansur68@gmail.com">abdallhmansur68@gmail.com <i>↗</i></a></div>
-    <div class="alaska-footer__details"><div><img src="public/alaska-logo.webp" width="76" height="76" alt=""><strong>ALASKA</strong></div><address><span class="lang-ar">محلة السبعة، زليتن، ليبيا</span><span class="lang-en">AL SABAA, ZLITEN, LIBYA</span></address><div><a href="tel:+218912182998" dir="ltr">091 218 2998</a><a href="https://wa.me/218923142069" dir="ltr">+218 92 314 2069</a></div></div>
+    <div class="alaska-footer__details"><div><img src="public/alaska-logo.png" width="88" height="88" alt=""><strong>ALASKA</strong></div><address><span class="lang-ar">محلة السبعة، زليتن، ليبيا</span><span class="lang-en">AL SABAA, ZLITEN, LIBYA</span></address><div><a href="tel:+218912182998" dir="ltr">091 218 2998</a><a href="https://wa.me/218923142069" dir="ltr">+218 92 314 2069</a></div></div>
     <div class="alaska-footer__bottom"><span>© <span data-year></span> ALASKA</span><span><span class="lang-ar">ننسج القوة. نحمي منتجك.</span><span class="lang-en">WOVEN FOR STRENGTH. BUILT FOR YOUR PRODUCT.</span></span><a href="#top" aria-label="العودة إلى الأعلى">↑</a></div>
   </footer>
 
