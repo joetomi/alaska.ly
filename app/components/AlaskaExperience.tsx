@@ -1579,26 +1579,18 @@ function ContactSection({
 }
 
 function SiteFooter({ content }: { content: SiteContent }) {
-  const arrow = "↗";
-
   return (
     <footer className="alaska-footer">
       <div className="alaska-footer__main">
         <p>{content.footer.title}</p>
-        <a href={siteDetails.email.href} dir="ltr">
-          {siteDetails.email.display}<i aria-hidden="true">{arrow}</i>
-        </a>
       </div>
       <div className="alaska-footer__details">
-        <div className="alaska-footer__brand">
-          <img src="/alaska-logo.webp" width={76} height={76} alt="" />
-          <strong>{content.brand.name}</strong>
-          <span>{content.footer.companyDescription}</span>
-        </div>
-        <address>
-          <small>{content.footer.addressLabel}</small>
+        <div className="alaska-footer__location">
+          <strong>{content.language === "ar" ? "الفرع الوحيد" : "OUR ONLY LOCATION"}</strong>
+          <address>
           {content.location.address}
-        </address>
+          </address>
+        </div>
         <div className="alaska-footer__contact">
           <a href={siteDetails.phone.href} dir="ltr"><small dir={content.direction}>{content.footer.phoneLabel}</small>{siteDetails.phone.display}</a>
           <a href={siteDetails.whatsapp.href} target="_blank" rel="noreferrer" dir="ltr"><small dir={content.direction}>{content.footer.whatsappLabel}</small>{siteDetails.whatsapp.display}</a>
