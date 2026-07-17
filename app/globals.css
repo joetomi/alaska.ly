@@ -1088,25 +1088,20 @@ html[lang="en"] .lang-ar {
   -webkit-text-stroke: 1px var(--alaska-black);
 }
 
-/* Keep Arabic letters joined and use a shadow-built outline so their dots stay clear. */
+/* Arabic needs a display face with stable joined forms when used as outlined text. */
 [dir="rtl"] .marquee-band__track span {
   padding-block: 0.06em;
+  font-family: Tahoma, Arial, sans-serif;
+  font-weight: 700;
   letter-spacing: normal;
   line-height: 1.14;
 }
 
 [dir="rtl"] .marquee-band__track .outline {
-  color: transparent;
-  -webkit-text-stroke: 0;
-  text-shadow:
-    1px 0 0 var(--alaska-black),
-    -1px 0 0 var(--alaska-black),
-    0 1px 0 var(--alaska-black),
-    0 -1px 0 var(--alaska-black),
-    1px 1px 0 var(--alaska-black),
-    -1px -1px 0 var(--alaska-black),
-    1px -1px 0 var(--alaska-black),
-    -1px 1px 0 var(--alaska-black);
+  color: transparent !important;
+  -webkit-text-stroke: 1.2px var(--alaska-black);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 @keyframes alaska-marquee {
