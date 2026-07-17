@@ -28,6 +28,7 @@ try {
   fs.copyFileSync('index.html', path.join(dist, 'index.html'));
   fs.copyFileSync('privacy.html', path.join(dist, 'privacy.html'));
   fs.copyFileSync('app/globals.css', path.join(appDist, 'globals.css'));
+  fs.copyFileSync('public/og.png', path.join(dist, 'og.png'));
   copyDirectory('public', path.join(dist, 'public'));
 
   console.log('Build completed successfully for static Vercel deployment!');
