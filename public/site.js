@@ -31,6 +31,17 @@
     }
     const loader = document.querySelector(".alaska-preloader");
     if (loader) loader.setAttribute("aria-label", isArabic ? "جاري تحميل تجربة ألاسكا" : "Loading Alaska experience");
+    document.querySelectorAll("[data-aria-en]").forEach((element) => {
+      const arabicLabel = element.dataset.ariaAr || element.getAttribute("aria-label") || "";
+      if (!element.dataset.ariaAr) element.dataset.ariaAr = arabicLabel;
+      element.setAttribute("aria-label", isArabic ? arabicLabel : element.dataset.ariaEn);
+    });
+    document.querySelectorAll("img[data-alt-en]").forEach((image) => {
+      const arabicAlt = image.dataset.altAr || image.getAttribute("alt") || "";
+      if (!image.dataset.altAr) image.dataset.altAr = arabicAlt;
+      image.setAttribute("alt", isArabic ? arabicAlt : image.dataset.altEn);
+    });
+    window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
   };
 
   languageToggle?.addEventListener("click", () => {
@@ -243,6 +254,8 @@
   const heroMedia = document.querySelector("[data-hero-media]");
   const heroContent = document.querySelector("[data-hero-content]");
   const backToTopBtn = document.getElementById("back-to-top");
+  const processStages = document.querySelector("[data-process-stages]");
+  const processProgress = processStages?.querySelector("[data-process-progress]");
   let scrollFrame = 0;
 
   if (backToTopBtn) {
@@ -274,11 +287,29 @@
         backToTopBtn.classList.remove("is-visible");
       }
     }
+    if (processStages && processProgress) {
+      if (reducedMotion.matches) {
+        processProgress.style.setProperty("--process-progress", "1");
+      } else {
+        const bounds = processStages.getBoundingClientRect();
+        const viewportHeight = Math.max(window.innerHeight, 1);
+        const travel = Math.max(bounds.height - viewportHeight * 0.18, 1);
+        const progress = Math.min(Math.max((viewportHeight * 0.68 - bounds.top) / travel, 0), 1);
+        processProgress.style.setProperty("--process-progress", progress.toFixed(4));
+      }
+    }
     scrollFrame = 0;
   };
-  window.addEventListener("scroll", () => {
+  const scheduleScrollEffects = () => {
     if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScrollEffects);
-  }, { passive: true });
+  };
+  window.addEventListener("scroll", scheduleScrollEffects, { passive: true });
+  window.addEventListener("resize", scheduleScrollEffects);
+  window.addEventListener("orientationchange", scheduleScrollEffects);
+  if (processStages && "ResizeObserver" in window) {
+    const processResizeObserver = new ResizeObserver(scheduleScrollEffects);
+    processResizeObserver.observe(processStages);
+  }
   updateScrollEffects();
 
   const revealItems = document.querySelectorAll(".reveal");
@@ -293,6 +324,55 @@
       });
     }, { threshold: 0.16, rootMargin: "0px 0px -8%" });
     revealItems.forEach((element) => revealObserver.observe(element));
+  }
+
+  const qualityGrid = document.querySelector(".quality-section__grid");
+  const industrialCards = document.querySelectorAll("#process [data-depth-card], #quality [data-depth-card]");
+  [processStages, qualityGrid].forEach((container) => container?.classList.add("industrial-effects-ready"));
+
+  if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+    industrialCards.forEach((card) => card.classList.add("is-stage-visible"));
+  } else {
+    const industrialObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle("is-stage-visible", entry.isIntersecting);
+      });
+    }, { threshold: 0.08, rootMargin: "24% 0px 24% 0px" });
+    industrialCards.forEach((card) => industrialObserver.observe(card));
+  }
+
+  const hoverPointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  if (hoverPointer.matches && !reducedMotion.matches) {
+    industrialCards.forEach((card) => {
+      let tiltFrame = 0;
+      let nextX = 0;
+      let nextY = 0;
+
+      const renderTilt = () => {
+        card.style.setProperty("--tilt-x", `${(nextY * -5).toFixed(2)}deg`);
+        card.style.setProperty("--tilt-y", `${(nextX * 5).toFixed(2)}deg`);
+        card.style.setProperty("--parallax-x", `${(nextX * 9).toFixed(2)}px`);
+        card.style.setProperty("--parallax-y", `${(nextY * 7).toFixed(2)}px`);
+        tiltFrame = 0;
+      };
+
+      card.addEventListener("pointermove", (event) => {
+        const bounds = card.getBoundingClientRect();
+        nextX = ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * 2 - 1;
+        nextY = ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * 2 - 1;
+        card.classList.add("is-pointer-active");
+        if (!tiltFrame) tiltFrame = window.requestAnimationFrame(renderTilt);
+      }, { passive: true });
+
+      const resetTilt = () => {
+        nextX = 0;
+        nextY = 0;
+        card.classList.remove("is-pointer-active");
+        if (!tiltFrame) tiltFrame = window.requestAnimationFrame(renderTilt);
+      };
+      card.addEventListener("pointerleave", resetTilt);
+      card.addEventListener("focusout", resetTilt);
+    });
   }
 
   const cursor = document.querySelector(".alaska-cursor");

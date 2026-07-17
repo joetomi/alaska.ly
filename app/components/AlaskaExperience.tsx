@@ -68,6 +68,131 @@ function usePrefersReducedMotion() {
   return prefersReducedMotion;
 }
 
+function useIndustrialDepthEffects<T extends HTMLElement>(
+  containerRef: RefObject<T | null>,
+  prefersReducedMotion: boolean,
+  trackProgress = false,
+) {
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const cards = Array.from(
+      container.querySelectorAll<HTMLElement>("[data-depth-card]"),
+    );
+    const progressTrack = trackProgress
+      ? container.querySelector<HTMLElement>("[data-process-progress]")
+      : null;
+    container.classList.add("industrial-effects-ready");
+
+    if (prefersReducedMotion) {
+      cards.forEach((card) => card.classList.add("is-stage-visible"));
+      progressTrack?.style.setProperty("--process-progress", "1");
+      return () => container.classList.remove("industrial-effects-ready");
+    }
+
+    let revealObserver: IntersectionObserver | null = null;
+    if ("IntersectionObserver" in window) {
+      revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-stage-visible", entry.isIntersecting);
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: "24% 0px 24% 0px",
+      });
+      cards.forEach((card) => revealObserver?.observe(card));
+    } else {
+      cards.forEach((card) => card.classList.add("is-stage-visible"));
+    }
+
+    const cleanups: Array<() => void> = [];
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (finePointer.matches) {
+      cards.forEach((card) => {
+        let tiltFrame = 0;
+        let nextX = 0;
+        let nextY = 0;
+
+        const renderTilt = () => {
+          const rotateX = nextY * -5;
+          const rotateY = nextX * 5;
+          card.style.setProperty("--tilt-x", `${rotateX.toFixed(2)}deg`);
+          card.style.setProperty("--tilt-y", `${rotateY.toFixed(2)}deg`);
+          card.style.setProperty("--parallax-x", `${(nextX * 9).toFixed(2)}px`);
+          card.style.setProperty("--parallax-y", `${(nextY * 7).toFixed(2)}px`);
+          tiltFrame = 0;
+        };
+
+        const handlePointerMove = (event: PointerEvent) => {
+          const bounds = card.getBoundingClientRect();
+          nextX = ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * 2 - 1;
+          nextY = ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * 2 - 1;
+          card.classList.add("is-pointer-active");
+          if (!tiltFrame) tiltFrame = window.requestAnimationFrame(renderTilt);
+        };
+
+        const resetTilt = () => {
+          nextX = 0;
+          nextY = 0;
+          card.classList.remove("is-pointer-active");
+          if (!tiltFrame) tiltFrame = window.requestAnimationFrame(renderTilt);
+        };
+
+        card.addEventListener("pointermove", handlePointerMove, { passive: true });
+        card.addEventListener("pointerleave", resetTilt);
+        card.addEventListener("focusout", resetTilt);
+        cleanups.push(() => {
+          if (tiltFrame) window.cancelAnimationFrame(tiltFrame);
+          card.removeEventListener("pointermove", handlePointerMove);
+          card.removeEventListener("pointerleave", resetTilt);
+          card.removeEventListener("focusout", resetTilt);
+        });
+      });
+    }
+
+    let progressFrame = 0;
+    const updateProgress = () => {
+      if (!progressTrack) return;
+      const bounds = container.getBoundingClientRect();
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const travel = Math.max(bounds.height - viewportHeight * 0.18, 1);
+      const progress = Math.min(
+        Math.max((viewportHeight * 0.68 - bounds.top) / travel, 0),
+        1,
+      );
+      progressTrack.style.setProperty("--process-progress", progress.toFixed(4));
+      progressFrame = 0;
+    };
+
+    const scheduleProgress = () => {
+      if (!progressFrame) progressFrame = window.requestAnimationFrame(updateProgress);
+    };
+
+    if (progressTrack) {
+      window.addEventListener("scroll", scheduleProgress, { passive: true });
+      window.addEventListener("resize", scheduleProgress);
+      const progressResizeObserver = "ResizeObserver" in window
+        ? new ResizeObserver(scheduleProgress)
+        : null;
+      progressResizeObserver?.observe(container);
+      scheduleProgress();
+      cleanups.push(() => {
+        if (progressFrame) window.cancelAnimationFrame(progressFrame);
+        progressResizeObserver?.disconnect();
+        window.removeEventListener("scroll", scheduleProgress);
+        window.removeEventListener("resize", scheduleProgress);
+      });
+    }
+
+    return () => {
+      revealObserver?.disconnect();
+      cleanups.forEach((cleanup) => cleanup());
+      container.classList.remove("industrial-effects-ready");
+    };
+  }, [containerRef, prefersReducedMotion, trackProgress]);
+}
+
 function useBodyScrollLock(active: boolean) {
   useEffect(() => {
     if (!active) return;
@@ -947,6 +1072,9 @@ function ProcessSection({
   content: SiteContent;
   prefersReducedMotion: boolean;
 }) {
+  const stagesRef = useRef<HTMLDivElement>(null);
+  useIndustrialDepthEffects(stagesRef, prefersReducedMotion, true);
+
   return (
     <section className="alaska-section process-section" id="process" aria-labelledby="process-title">
       <div className="alaska-container process-section__content">
@@ -1003,32 +1131,41 @@ function ProcessSection({
           </div>
         </section>
 
-        <div className="process-stages">
-          {content.process.steps.map((step, index) => (
-            <motion.article
-              className="process-stage reveal"
+        <div className="process-stages" ref={stagesRef} data-process-stages>
+          <div className="process-progress" data-process-progress aria-hidden="true">
+            <span />
+          </div>
+          {content.process.steps.map((step) => (
+            <article
+              className="process-stage"
               key={step.number}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 45 }}
-              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: index * 0.06, ease: EASE_EXPO }}
+              data-depth-card
+              data-stage-number={step.number}
             >
-              <a
-                className="process-stage__media"
-                href={step.image}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${step.imageLinkLabel}: ${step.title}`}
-              >
-                <img
-                  src={step.image}
-                  width={step.imageWidth}
-                  height={step.imageHeight}
-                  alt={step.imageAlt}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </a>
+              <div className="process-stage__scene" data-depth-scene>
+                <span className="process-stage__neon-frame" aria-hidden="true" />
+                <a
+                  className="process-stage__media"
+                  href={step.image}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${step.imageLinkLabel}: ${step.title}`}
+                >
+                  <span className="process-stage__media-surface">
+                    <img
+                      src={step.image}
+                      width={step.imageWidth}
+                      height={step.imageHeight}
+                      alt={step.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                </a>
+                <span className="process-stage__floating-number" aria-hidden="true">
+                  {step.number}
+                </span>
+              </div>
               <div className="process-stage__copy">
                 <span className="process-stage__number">{step.number}</span>
                 <h3>{step.title}</h3>
@@ -1048,7 +1185,7 @@ function ProcessSection({
                   {step.imageLinkLabel}<i aria-hidden="true">↗</i>
                 </a>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
 
@@ -1075,33 +1212,32 @@ function QualitySection({
   content: SiteContent;
   prefersReducedMotion: boolean;
 }) {
+  const qualityRef = useRef<HTMLDivElement>(null);
+  useIndustrialDepthEffects(qualityRef, prefersReducedMotion);
+
   return (
     <section className="alaska-section quality-section" id="quality" aria-labelledby="quality-title">
-      <div className="alaska-container quality-section__grid">
-        <motion.figure
-          className="quality-section__visual reveal"
-          initial={prefersReducedMotion ? false : { opacity: 0, x: -80 }}
-          whileInView={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.8, ease: EASE_EXPO }}
-        >
-          <a
-            className="quality-section__frame"
-            href={content.quality.image}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={content.quality.imageLinkLabel}
-          >
-            <img
-              src={content.quality.image}
-              width={content.quality.imageWidth}
-              height={content.quality.imageHeight}
-              alt={content.quality.imageAlt}
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-          <figcaption><strong>QC</strong><span>{content.quality.badge}</span></figcaption>
+      <div className="alaska-container quality-section__grid" ref={qualityRef}>
+        <figure className="quality-section__visual" data-depth-card data-quality-visual>
+          <div className="quality-section__scene" data-depth-scene>
+            <a
+              className="quality-section__frame"
+              href={content.quality.image}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={content.quality.imageLinkLabel}
+            >
+              <img
+                src={content.quality.image}
+                width={content.quality.imageWidth}
+                height={content.quality.imageHeight}
+                alt={content.quality.imageAlt}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <span className="quality-section__detail" aria-hidden="true" />
+          </div>
           <div
             className="quality-reading"
             aria-label={`${content.quality.reading.label}: ${content.quality.reading.value}`}
@@ -1109,7 +1245,8 @@ function QualitySection({
             <strong dir="ltr">{content.quality.reading.value}</strong>
             <span>{content.quality.reading.label}</span>
           </div>
-        </motion.figure>
+          <figcaption><strong>QC</strong><span>{content.quality.badge}</span></figcaption>
+        </figure>
         <motion.div
           className="quality-section__copy reveal"
           initial={prefersReducedMotion ? false : { opacity: 0, x: 80 }}
@@ -1457,7 +1594,6 @@ function SiteFooter({ content }: { content: SiteContent }) {
       <div className="alaska-footer__bottom">
         <span>© <span suppressHydrationWarning>{new Date().getFullYear()}</span> ALASKA — {content.footer.rights}</span>
         <span>{content.footer.tagline}</span>
-        <a href="#top" aria-label={content.footer.backToTopLabel}>↑</a>
       </div>
     </footer>
   );

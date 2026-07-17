@@ -40,6 +40,7 @@ test("static production source contains the complete bilingual experience", asyn
   const html = await source("index.html");
 
   assert.match(html, /class="alaska-preloader"/);
+  assert.match(html, /<noscript><style>\.alaska-preloader\{display:none!important\}\.reveal\{opacity:1!important;transform:none!important\}<\/style><\/noscript>/);
   assert.match(html, /class="alaska-menu"[^>]*role="dialog"/);
   assert.match(html, /data-language-toggle/);
   assert.match(html, /class="lang-ar"/);
@@ -74,7 +75,11 @@ test("production and quality sections use the supplied local images and exact fo
   const html = await source("index.html");
 
   assert.equal((html.match(/class="raw-material-card reveal"/g) ?? []).length, 2);
-  assert.equal((html.match(/class="process-stage reveal"/g) ?? []).length, 4);
+  assert.equal((html.match(/class="process-stage" data-depth-card data-stage-number=/g) ?? []).length, 4);
+  assert.match(html, /data-process-stages/);
+  assert.match(html, /data-process-progress/);
+  assert.match(html, /data-quality-visual/);
+  assert.doesNotMatch(html, /<div class="process-section__media"/);
   assert.match(html, /Color Masterbatch/);
   assert.match(html, /Polypropylene Granules \(PP\)/);
   assert.match(html, /Raw Material Mixing and Feeding Unit/);
@@ -85,6 +90,46 @@ test("production and quality sections use the supplied local images and exact fo
   assert.match(html, /PHOTOGRAPHED SAMPLE READING/);
   assert.match(html, /76 g/);
   assert.doesNotMatch(html, /74 g/);
+  assert.equal((html.match(/data-aria-en=/g) ?? []).length, 5);
+  assert.equal((html.match(/data-alt-en=/g) ?? []).length, 5);
+  assert.match(html, /quality-reading[\s\S]*<figcaption>[\s\S]*<\/figure>/);
+});
+
+test("production and quality sections define the scoped cinematic depth interactions", async () => {
+  const [html, css, script, component] = await Promise.all([
+    source("index.html"),
+    source("app/globals.css"),
+    source("public/site.js"),
+    source("app/components/AlaskaExperience.tsx"),
+  ]);
+
+  assert.equal((html.match(/data-depth-scene/g) ?? []).length, 5);
+  assert.match(css, /perspective:\s*1[45-6]00px/);
+  assert.match(css, /transform-style:\s*preserve-3d/);
+  assert.match(css, /translateZ\(/);
+  assert.doesNotMatch(css, /grayscale\(1\)\s+saturate\(0\)/);
+  assert.match(css, /grayscale\(0\)\s+saturate\(1\)\s+contrast\(1\.03\)\s+brightness\(1\)/);
+  assert.match(css, /:focus-within[\s\S]*grayscale\(0\)\s+saturate\(1\)/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\), \(max-width: 900px\)/);
+  assert.match(css, /filter:\s*grayscale\(0\) saturate\(1\)[^;]*!important/);
+  assert.match(css, /process-stage:not\(\.is-stage-visible\)[\s\S]*clip-path:[\s\S]*blur\(5px\)/);
+  assert.match(css, /process-stage:not\(\.is-stage-visible\) \.process-stage__copy/);
+  assert.match(css, /\.custom-cursor-active \*[\s\S]*cursor:\s*none\s*!important/);
+  assert.doesNotMatch(css, /\[id\]\s*\{\s*scroll-margin-top/);
+
+  assert.match(script, /#process \[data-depth-card\], #quality \[data-depth-card\]/);
+  assert.match(script, /classList\.toggle\("is-stage-visible", entry\.isIntersecting\)/);
+  assert.match(script, /\(hover: hover\) and \(pointer: fine\)/);
+  assert.match(script, /--process-progress/);
+  assert.match(script, /--tilt-x/);
+  assert.match(script, /pointermove/);
+  assert.match(script, /pointerleave/);
+  assert.match(script, /addEventListener\("resize", scheduleScrollEffects\)/);
+  assert.match(script, /new ResizeObserver\(scheduleScrollEffects\)/);
+  assert.match(component, /useIndustrialDepthEffects/);
+  assert.match(component, /new ResizeObserver\(scheduleProgress\)/);
+  assert.match(component, /data-process-stages/);
+  assert.match(component, /data-quality-visual/);
 });
 
 test("design system defines Juman, dark Alaska tokens, responsiveness and reduced motion", async () => {

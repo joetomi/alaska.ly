@@ -46,6 +46,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <link rel="preload" href="/alaska-logo.webp" as="image" type="image/webp" />
         <link rel="preload" href="/hero-factory-v2.png" as="image" type="image/png" />
+        <noscript>
+          <style>{`.alaska-preloader{display:none!important}.reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body>{children}</body>
     </html>
