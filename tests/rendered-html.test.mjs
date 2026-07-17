@@ -163,6 +163,8 @@ test("design system defines Juman, dark Alaska tokens, responsiveness and reduce
   assert.match(css, /overflow-x:\s*clip/);
   assert.match(css, /Vector arrows/);
   assert.match(css, /-webkit-mask:/);
+  assert.match(css, /a\[href\^="mailto:"\][\s\S]*white-space:\s*nowrap/);
+  assert.match(css, /contact-direct__copy > span[\s\S]*white-space:\s*nowrap/);
 });
 
 test("interaction scripts preserve menu, modal and mail-platform behavior", async () => {

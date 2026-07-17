@@ -100,6 +100,13 @@ a {
   text-decoration: none;
 }
 
+/* Contact details are identifiers and must always stay on a single line. */
+a[href^="mailto:"],
+a[href^="tel:"],
+a[href^="https://wa.me/"] {
+  white-space: nowrap;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -2399,7 +2406,7 @@ html[lang="en"] .lang-ar {
 
 .contact-direct {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(300px, 1.22fr);
   max-width: 980px;
   margin: 18px auto 0;
   border: 1px solid var(--alaska-line);
@@ -2412,7 +2419,7 @@ html[lang="en"] .lang-ar {
   gap: 14px;
   min-width: 0;
   padding: 22px;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   border-inline-end: 1px solid var(--alaska-line);
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -2437,6 +2444,12 @@ html[lang="en"] .lang-ar {
 .contact-direct__copy {
   display: grid;
   min-width: 0;
+}
+
+.contact-direct__copy > span {
+  font-size: clamp(0.84rem, 1.15vw, 1.02rem);
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .contact-direct a:last-child {
@@ -3197,7 +3210,7 @@ html[lang="en"] .lang-ar {
 
   .alaska-footer__main > a {
     max-width: 100%;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
   }
 
   .alaska-footer__details {
