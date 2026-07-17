@@ -71,6 +71,22 @@ test("static production source contains the complete bilingual experience", asyn
   assert.doesNotMatch(html, /Libyan Lands|llc\.com\.ly/i);
 });
 
+test("privacy policy is available in Arabic and English and preserves the selected language", async () => {
+  const [html, policy, script] = await Promise.all([
+    source("index.html"),
+    source("privacy.html"),
+    source("public/site.js"),
+  ]);
+
+  assert.match(html, /data-privacy-link/);
+  assert.match(policy, /سياسة الخصوصية/);
+  assert.match(policy, /PRIVACY POLICY/);
+  assert.match(policy, /privacy-language-toggle/);
+  assert.match(policy, /URLSearchParams\(window\.location\.search\)/);
+  assert.match(script, /data-privacy-link/);
+  assert.match(script, /new URLSearchParams\(window\.location\.search\)/);
+});
+
 test("production and quality sections use the supplied local images and exact four-stage flow", async () => {
   const html = await source("index.html");
 
@@ -142,6 +158,8 @@ test("design system defines Juman, dark Alaska tokens, responsiveness and reduce
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /@media \(max-width:\s*640px\)/);
   assert.match(css, /overflow-x:\s*clip/);
+  assert.match(css, /Vector arrows/);
+  assert.match(css, /-webkit-mask:/);
 });
 
 test("interaction scripts preserve menu, modal and mail-platform behavior", async () => {

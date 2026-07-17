@@ -1593,6 +1593,7 @@ function SiteFooter({ content }: { content: SiteContent }) {
       </div>
       <div className="alaska-footer__bottom">
         <span>© <span suppressHydrationWarning>{new Date().getFullYear()}</span> ALASKA — {content.footer.rights}</span>
+        <a className="alaska-footer__privacy" href={`/privacy.html?lang=${content.language}`}>{content.language === "ar" ? "سياسة الخصوصية" : "PRIVACY POLICY"}</a>
         <span>{content.footer.tagline}</span>
       </div>
     </footer>

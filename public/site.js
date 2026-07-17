@@ -25,6 +25,9 @@
     const isArabic = language === "ar";
     root.lang = language;
     root.dir = isArabic ? "rtl" : "ltr";
+    document.querySelectorAll("[data-privacy-link]").forEach((link) => {
+      link.setAttribute("href", `privacy.html?lang=${language}`);
+    });
     if (languageToggle) {
       languageToggle.textContent = isArabic ? "EN" : "عربي";
       languageToggle.setAttribute("aria-label", isArabic ? "Switch to English" : "التبديل إلى العربية");
@@ -397,5 +400,5 @@
   }
 
   document.querySelectorAll("[data-year]").forEach((element) => { element.textContent = String(new Date().getFullYear()); });
-  setLanguage(root.lang === "en" ? "en" : "ar");
+  setLanguage(new URLSearchParams(window.location.search).get("lang") === "en" ? "en" : "ar");
 })();

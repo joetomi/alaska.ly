@@ -26,6 +26,7 @@ try {
 
   // Copy static files
   fs.copyFileSync('index.html', path.join(dist, 'index.html'));
+  fs.copyFileSync('privacy.html', path.join(dist, 'privacy.html'));
   fs.copyFileSync('app/globals.css', path.join(appDist, 'globals.css'));
   copyDirectory('public', path.join(dist, 'public'));
 
