@@ -3,13 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://alaska.ly"),
-  title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
+  title: "شركة ألاسكا لصناعة أكياس الأعلاف | ALASKA",
   description:
-    "الموقع الرسمي لشركة الاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة في زليتن، ليبيا.",
+    "الموقع الرسمي لشركة ألاسكا لصناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة في زليتن، ليبيا.",
   alternates: { canonical: "https://alaska.ly/" },
   icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
   openGraph: {
-    title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
+    title: "شركة ألاسكا لصناعة أكياس الأعلاف | ALASKA",
     description:
       "شركة ليبية متخصصة في صناعة أكياس الأعلاف والأكياس المنسوجة للأرز والفحم والخضروات والأسمدة.",
     url: "https://alaska.ly/",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "شركة الاسكا لصناعة أكياس الأعلاف | ALASKA",
+    title: "شركة ألاسكا لصناعة أكياس الأعلاف | ALASKA",
     description: "صناعة أكياس الأعلاف والأكياس المنسوجة في زليتن، ليبيا.",
     images: ["/og.png"],
   },
