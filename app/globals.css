@@ -482,29 +482,28 @@ html[lang="en"] .lang-ar {
   100% { transform: scaleX(1); }
 }
 
-/* Cursor */
+/* Cursor Trailing Indicator */
 .alaska-cursor {
   position: fixed;
-  z-index: 1600;
+  z-index: 100000 !important;
   top: 0;
   left: 0;
-  width: 16px;
-  height: 16px;
+  width: 26px;
+  height: 26px;
+  margin-top: -13px;
+  margin-left: -13px;
   border-radius: 50%;
-  background: var(--alaska-neon-bright);
+  border: 2px solid var(--alaska-neon-bright);
+  background: rgba(49, 197, 107, 0.14);
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   mix-blend-mode: difference;
   will-change: transform;
+  transition: opacity 0.25s ease, width 0.25s ease, height 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 
 .custom-cursor-active .alaska-cursor {
   opacity: 1;
-}
-
-.custom-cursor-active,
-.custom-cursor-active * {
-  cursor: none !important;
 }
 
 /* Navigation */

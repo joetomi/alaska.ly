@@ -137,7 +137,7 @@ test("production and quality sections define the scoped cinematic depth interact
   assert.match(css, /filter:\s*grayscale\(0\) saturate\(1\)[^;]*!important/);
   assert.match(css, /process-stage:not\(\.is-stage-visible\)[\s\S]*clip-path:[\s\S]*blur\(5px\)/);
   assert.match(css, /process-stage:not\(\.is-stage-visible\) \.process-stage__copy/);
-  assert.match(css, /\.custom-cursor-active \*[\s\S]*cursor:\s*none\s*!important/);
+  assert.match(css, /\.alaska-cursor\s*\{[\s\S]*z-index:\s*100000/);
   assert.doesNotMatch(css, /\[id\]\s*\{\s*scroll-margin-top/);
 
   assert.match(script, /#process \[data-depth-card\], #quality \[data-depth-card\]/);

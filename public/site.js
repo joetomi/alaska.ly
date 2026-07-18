@@ -381,19 +381,32 @@
   const cursor = document.querySelector(".alaska-cursor");
   if (cursor && finePointer.matches && window.innerWidth >= 1024 && !reducedMotion.matches) {
     body.classList.add("custom-cursor-active");
-    let pointerX = -50;
-    let pointerY = -50;
-    let cursorX = -50;
-    let cursorY = -50;
+    let pointerX = -100;
+    let pointerY = -100;
+    let cursorX = -100;
+    let cursorY = -100;
     let cursorScale = 1;
+
     document.addEventListener("pointermove", (event) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
+      const target = event.target;
+      const isInteractive = target && (target.closest("a, button, input, textarea, select, [role='button'], [data-cursor-interactive]") !== null);
+      cursorScale = isInteractive ? 1.5 : 1;
     }, { passive: true });
+
+    document.addEventListener("pointerleave", () => {
+      cursor.style.opacity = "0";
+    });
+
+    document.addEventListener("pointerenter", () => {
+      cursor.style.opacity = "1";
+    });
+
     const renderCursor = () => {
-      cursorX += (pointerX - cursorX) * 0.24;
-      cursorY += (pointerY - cursorY) * 0.24;
-      cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%) scale(${cursorScale})`;
+      cursorX += (pointerX - cursorX) * 0.22;
+      cursorY += (pointerY - cursorY) * 0.22;
+      cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) scale(${cursorScale})`;
       window.requestAnimationFrame(renderCursor);
     };
     window.requestAnimationFrame(renderCursor);

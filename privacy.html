@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="app/globals.css">
 </head>
 <body class="privacy-page">
+  <div class="alaska-cursor" aria-hidden="true"></div>
   <header class="privacy-header">
     <a class="privacy-brand" id="privacy-home-link" href="index.html" aria-label="العودة إلى الصفحة الرئيسية لشركة ألاسكا">
       <img src="public/alaska-logo.webp" width="50" height="50" alt="شعار شركة ألاسكا">
@@ -77,6 +78,30 @@
       };
       setLanguage(new URLSearchParams(window.location.search).get('lang'));
       toggle.addEventListener('click', () => setLanguage(root.lang === 'ar' ? 'en' : 'ar'));
+
+      const cursor = document.querySelector('.alaska-cursor');
+      const finePointer = window.matchMedia('(pointer: fine)');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (cursor && finePointer.matches && window.innerWidth >= 1024 && !reducedMotion.matches) {
+        document.body.classList.add('custom-cursor-active');
+        let pointerX = -100, pointerY = -100, cursorX = -100, cursorY = -100, cursorScale = 1;
+        document.addEventListener('pointermove', (event) => {
+          pointerX = event.clientX;
+          pointerY = event.clientY;
+          const target = event.target;
+          const isInteractive = target && (target.closest("a, button, input, textarea, select, [role='button']") !== null);
+          cursorScale = isInteractive ? 1.5 : 1;
+        }, { passive: true });
+        document.addEventListener('pointerleave', () => cursor.style.opacity = '0');
+        document.addEventListener('pointerenter', () => cursor.style.opacity = '1');
+        const renderCursor = () => {
+          cursorX += (pointerX - cursorX) * 0.22;
+          cursorY += (pointerY - cursorY) * 0.22;
+          cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) scale(${cursorScale})`;
+          window.requestAnimationFrame(renderCursor);
+        };
+        window.requestAnimationFrame(renderCursor);
+      }
     })();
   </script>
 </body>
