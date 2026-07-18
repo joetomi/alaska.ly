@@ -656,7 +656,7 @@ function SiteNavbar({
     <>
       <header className="alaska-nav" data-scrolled={String(scrolled)}>
         <a className="alaska-nav__brand" href="#top" aria-label={`${content.brand.name} — ${content.navigation.items[0].label}`}>
-          <img src="/alaska-logo.webp" width={52} height={52} alt={content.brand.logoAlt} />
+          <img src="/alaska-logo.png" width={64} height={64} alt={content.brand.logoAlt} />
           <span>
             <strong>{content.brand.name}</strong>
             <small>{content.brand.descriptor}</small>

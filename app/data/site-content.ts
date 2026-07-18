@@ -294,7 +294,7 @@ export const siteContent = {
         {
           label: "نقاط القوة",
           href: "#strengths",
-          previewImage: "/alaska-logo.webp",
+          previewImage: "/alaska-logo.png",
           previewAlt: "شعار شركة ألاسكا",
         },
         {
@@ -706,7 +706,7 @@ export const siteContent = {
         {
           label: "Strengths",
           href: "#strengths",
-          previewImage: "/alaska-logo.webp",
+          previewImage: "/alaska-logo.png",
           previewAlt: "Alaska Company logo",
         },
         {
