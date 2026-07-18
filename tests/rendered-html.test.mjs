@@ -61,7 +61,7 @@ test("static production source contains the complete bilingual experience", asyn
   assert.match(html, /32\.4037500,14\.5859167/);
   assert.match(html, /091 218 2998/);
   assert.match(html, /\+218 92 314 2069/);
-  assert.match(html, /abdallhmansur68@gmail\.com/);
+  assert.match(html, /contact@alaska\.ly/);
   assert.match(html, /data-email-form/);
   assert.match(html, /data-platform="gmail"/);
   assert.match(html, /data-platform="outlook"/);
