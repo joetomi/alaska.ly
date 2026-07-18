@@ -5,7 +5,7 @@
   const body = document.body;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(pointer: fine)");
-  const destinationEmail = "abdallhmansur68@gmail.com";
+  const destinationEmail = "contact@alaska.ly";
   let previousFocus = null;
   let emailDraft = null;
   let lenis = null;

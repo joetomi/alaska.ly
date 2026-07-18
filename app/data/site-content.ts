@@ -235,8 +235,8 @@ export const siteDetails = {
     href: "https://wa.me/218923142069",
   },
   email: {
-    display: "abdallhmansur68@gmail.com",
-    href: "mailto:abdallhmansur68@gmail.com",
+    display: "contact@alaska.ly",
+    href: "mailto:contact@alaska.ly",
   },
   additionalPhones: [
     { display: "094 269 9733", href: "tel:+218942699733" },
